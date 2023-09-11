@@ -78,11 +78,13 @@ uint8_t is_music_on(void)
 // turn off the music
 void turn_off_music(void)
 {
+
 }
 
 // turn on the music
 void turn_on_music(void)
 {
+  
 }
 
 // Initialize music output pin:

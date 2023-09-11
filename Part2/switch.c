@@ -12,7 +12,9 @@
 // enable PF4 and PF0 for SW1 and SW2 respectively with falling edge interrupt enabled.
 // Inputs: None
 // Outputs: None
-void Switch_Init(void){ 
+void Switch_Init(void)
+{ 
+    
 }
 
 // ISR for PORTF
