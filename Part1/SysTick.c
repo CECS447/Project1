@@ -9,7 +9,7 @@
 
 // TODO: Define the bit address for PA3 which connects to the speaker.
 //#define SPEAKER (*((volatile unsigned long *)______________))
-
+// TODO: Update to PA3
 #define SPEAKER (*((volatile unsigned long *)0x40004010)) // define SPEAKER connects to PA2: 100
 #define Speaker_Toggle_Mask     0x00000004                // mask used to toggle the speaker output
 
