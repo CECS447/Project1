@@ -33,6 +33,17 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
+    // Switch 1 Pressed 
+    if (GPIO_PORTF_RIS_R & 0x10)
+    {
+        GPIO_PORTF_ICR_R |= 0x10;      
+    }
+    // Switch 2 Pressed 
+    else if (GPIO_PORTF_RIS_R & 0x01) 
+    { 
+	    GPIO_PORTF_ICR_R |= 0x01;      
+    }
 
+    
 }
 
