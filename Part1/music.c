@@ -11,6 +11,9 @@
 
 void Delay(void);
 
+static volatile uint8_t currentSong = 0;
+static volatile uint8_t musicOn = 0;
+
 // initail values for piano major notes: assume SysTick clock is 16MHz.
 const unsigned long Tone_Tab[] =
 // initial values for three major notes for 16MHz system clock
@@ -81,7 +84,7 @@ NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
 
 void play_a_song(void)
 {
-uint8_t i=0, j;
+  uint8_t i=currentSong, j;
 	while (Score_Tab[i]->delay) {
 		if (Score_Tab[i]->tone_index==PAUSE) // index = 255 indicate a pause: stop systick
 			SysTick_stop(); // silence tone, turn off SysTick timer
@@ -103,20 +106,24 @@ uint8_t i=0, j;
 
 void next_song(void)
 {
+  currentSong++;
+  currentSong = currentSong % 3;
 }
 
 unsigned char is_music_on(void)
 {
-  return 0;
+  return musicOn;
 }
 
 void turn_off_music(void)
 {
+  musicOn = 0;
   SysTick_stop();
 }
 
 void turn_on_music(void)
 {
+  musicOn = 1;
   SysTick_start();
 }
 

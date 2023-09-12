@@ -52,6 +52,7 @@ void GPIOPortF_Handler(void)
     // Switch 2 Pressed 
     else if (GPIO_PORTF_RIS_R & 0x01) 
     { 
+        next_song();
 	    GPIO_PORTF_ICR_R |= 0x01;      
     }
 }
