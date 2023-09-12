@@ -10,8 +10,8 @@
 // TODO: Define the bit address for PA3 which connects to the speaker.
 //#define SPEAKER (*((volatile unsigned long *)______________))
 // TODO: Update to PA3
-#define SPEAKER (*((volatile unsigned long *)0x40004010)) // define SPEAKER connects to PA2: 100
-#define Speaker_Toggle_Mask     0x00000020                // mask used to toggle the speaker output
+#define SPEAKER (*((volatile unsigned long *)0x40004020)) // define SPEAKER connects to PA2: 100
+#define Speaker_Toggle_Mask     0x00000008                // mask used to toggle the speaker output
 
 // Initialize SysTick with interrupt priority 2. Do not start it.
 void SysTick_Init(void)
@@ -46,7 +46,7 @@ void SysTick_Set_Current_Note(uint32_t n_value)
 void SysTick_Handler(void)
 {
     NVIC_ST_CTRL_R &= ~NVIC_ST_CTRL_ENABLE; //clr bit 0
-	SPEAKER ^= Speaker_Toggle_Mask;         // inverse bit 2	
+	SPEAKER ^= Speaker_Toggle_Mask;         // inverse bit 3	
     NVIC_ST_CURRENT_R = 0;                  // any write to current clears it
 	NVIC_ST_CTRL_R |= NVIC_ST_CTRL_ENABLE;  // set bit 0
 }
