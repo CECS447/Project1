@@ -112,10 +112,12 @@ unsigned char is_music_on(void)
 
 void turn_off_music(void)
 {
+  SysTick_stop();
 }
 
 void turn_on_music(void)
 {
+  SysTick_start();
 }
 
 // Make PA3 an output to the speaker, enable digital I/O, ensure alt. functions off
