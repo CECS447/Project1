@@ -7,6 +7,7 @@
 #include "tm4c123gh6pm.h"
 #include "switch.h"
 #include "music.h"
+#include <stdbool.h>
 
 // Subroutine to initialize port F pins for the two onboard switches
 // enable PF4 and PF0 for SW1 and SW2 respectively with falling edge interrupt enabled.
@@ -33,9 +34,19 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
+    static bool start_song = false;
     // Switch 1 Pressed 
     if (GPIO_PORTF_RIS_R & 0x10)
     {
+        if ( start_song )
+        {
+            turn_on_music();
+        }
+        else
+        {
+            turn_off_music();
+        }
+        start_song = !start_song;
         GPIO_PORTF_ICR_R |= 0x10;      
     }
     // Switch 2 Pressed 

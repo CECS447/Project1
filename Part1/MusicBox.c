@@ -31,10 +31,12 @@ int main(void){
   EnableInterrupts();  // SysTick uses interrupts
   
   while(1){
-    if (is_music_on()) {
+    if ( is_music_on() ) 
+    {
 		  play_a_song();
     }
-    else {
+    else 
+    {
       WaitForInterrupt();
     }
   }
