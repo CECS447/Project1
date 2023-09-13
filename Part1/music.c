@@ -133,13 +133,13 @@ void Music_Init(void)
   volatile unsigned long delay;
   SYSCTL_RCGC2_R |= 0x01;           // 1) activate clock for Port A
   delay = SYSCTL_RCGC2_R;           // allow time for clock to start
-                                    // 2) no need to unlock PA2
+                                    // 2) no need to unlock PA3
   GPIO_PORTA_PCTL_R &= ~0x0000F000; // 3) regular GPIO
-  GPIO_PORTA_AMSEL_R &= ~0x08;      // 4) disable analog function on PA2
+  GPIO_PORTA_AMSEL_R &= ~0x08;      // 4) disable analog function on PA3
   GPIO_PORTA_DIR_R |= 0x08;         // 5) set direction to output
   GPIO_PORTA_AFSEL_R &= ~0x08;      // 6) regular port function
   GPIO_PORTA_DEN_R |= 0x08;         // 7) enable digital port
-  GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA2 to increase the voice volumn
+  GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
 }
 
 // Subroutine to wait 0.1 sec
