@@ -38,7 +38,7 @@ void Switch_Init(void)
 void GPIOPortF_Handler(void)
 {
     static bool start_song = false;
-    // Switch 1 Pressed 
+    // Switch 1 Pressed, controls if music is on or off
     if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
         if ( !start_song )
@@ -52,7 +52,7 @@ void GPIOPortF_Handler(void)
         start_song = !start_song;
         GPIO_PORTF_ICR_R |= SWITCH1_MASK;      
     }
-    // Switch 2 Pressed 
+    // Switch 2 Pressed, controls if song is played
     else if (GPIO_PORTF_RIS_R & SWITCH2_MASK) 
     { 
         next_song();
