@@ -13,7 +13,7 @@
 // Initialize SysTick with interrupt priority 2. Do not start it.
 void SysTick_Init(void)
 {
-    NVIC_ST_CTRL_R = 0;                   // disable SysTick during setup
+    NVIC_ST_CTRL_R  = 0;                   // disable SysTick during setup
     NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; // priority 2
 	NVIC_ST_CTRL_R |= NVIC_ST_CTRL_CLK_SRC+NVIC_ST_CTRL_INTEN;
 }
@@ -32,8 +32,8 @@ void SysTick_stop(void)
 // update the reload value for current note with with n_value
 void SysTick_Set_Current_Note(uint32_t n_value)
 {
-    NVIC_ST_RELOAD_R = n_value-1;// update reload value
-    NVIC_ST_CURRENT_R = 0;                // any write to current clears it
+    NVIC_ST_RELOAD_R  = n_value - 1; // Update reload value 
+    NVIC_ST_CURRENT_R = 0;           // Clear current
 }
 
 // Interrupt service routine, 
@@ -43,7 +43,8 @@ void SysTick_Set_Current_Note(uint32_t n_value)
 void SysTick_Handler(void)
 {
     NVIC_ST_CTRL_R &= ~NVIC_ST_CTRL_ENABLE; // clr bit 0
-	SPEAKER ^= SPEAKER_TOGGLE_MASK;         // inverse bit 3	
+	SPEAKER ^= SPEAKER_TOGGLE_MASK;         // inverse bit 3
+
     NVIC_ST_CURRENT_R = 0;                  // any write to current clears it
-	NVIC_ST_CTRL_R |= NVIC_ST_CTRL_ENABLE;  // set bit 0
+	NVIC_ST_CTRL_R   |= NVIC_ST_CTRL_ENABLE;  // set bit 0
 }
