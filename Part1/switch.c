@@ -12,6 +12,8 @@
 #define SWITCH1_MASK 0x10
 #define SWITCH2_MASK 0x01
 
+extern uint8_t musicOn;
+
 // Subroutine to initialize port F pins for the two onboard switches
 // enable PF4 and PF0 for SW1 and SW2 respectively with falling edge interrupt enabled.
 // Inputs: None
@@ -37,11 +39,10 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
-    static bool start_song = false;
     // Switch 1 Pressed, controls if music is on or off
     if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
-        if ( !start_song )
+        if ( !musicOn )
         {
             turn_on_music();
         }
@@ -49,7 +50,6 @@ void GPIOPortF_Handler(void)
         {
             turn_off_music();
         }
-        start_song = !start_song;
         GPIO_PORTF_ICR_R |= SWITCH1_MASK;      
     }
     // Switch 2 Pressed, controls if song is played

@@ -12,7 +12,6 @@
 void Delay(void);
 
 static volatile uint8_t currentSong = 0;
-static volatile uint8_t musicOn = 0;
 
 // initail values for piano major notes: assume SysTick clock is 16MHz.
 const unsigned long Tone_Tab[] =
@@ -62,12 +61,21 @@ const unsigned long Tone_Tab[] =
 #define PAUSE 255				// assume there are less than 255 tones used in any song
 #define MAX_NOTES 50  // assume maximum number of notes in any song is 100. You can change this value if you add a long song.
 #define MAX_SONGS 3
+volatile uint8_t musicOn = 0;
+
 // doe ray mi fa so la ti 
 // C   D   E  F  G  A  B
 NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {  
 // score table for Happy Birthday
-{C4,2,C4,2,D4,4,C4,4,F4,4,E4,8,C4,2,C4,2,D4,4,C4,4,G4,4,F4,8,C4,2,C4,2,
- C5,4,A4,4,F4,4,E4,4,D4,8,B4,2,B4,2,A4,4,F4,4,G4,4,F4,12},
+{
+    G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
+// pause so   so   la   so   ray' doe'
+   PAUSE,4,  G4,2,G4,2,A4,4,G4,4,D5,4,C5,4,
+// pause so   so   so'  mi'  doe' ti   la
+   PAUSE,4, G4,2,G4,2,G5,4,E5,4,C5,4,B4,4,A4,8, 
+// pause fa'  fa'   mi'  doe' ray' doe'  stop
+	 PAUSE,4,  F5,2,F5,2, E5,4,C5,4,D5,4,C5,8, 0,0
+},
  
 // score table for Mary Had A Little Lamb
 {E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
@@ -84,30 +92,38 @@ NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
 
 void play_a_song(void)
 {
-  uint8_t i=currentSong, j;
-	while (Score_Tab[i]->delay) {
-		if (Score_Tab[i]->tone_index==PAUSE) // index = 255 indicate a pause: stop systick
+  uint8_t note = 0;
+  uint8_t currentToneIndex = 0;
+	while (Score_Tab[currentSong][note].delay & musicOn)
+  {
+    currentToneIndex = Score_Tab[currentSong][note].tone_index;
+		if ( currentToneIndex ==PAUSE)
+    { // index = 255 indicate a pause: stop systick
 			SysTick_stop(); // silence tone, turn off SysTick timer
-		else {
-			SysTick_Set_Current_Note(Tone_Tab[Score_Tab[i]->tone_index]);
+    }
+		else 
+    {
+      SysTick_Set_Current_Note(Tone_Tab[currentToneIndex]);
 			SysTick_start();
 		}
 		
 		// tempo control: 
 		// play current note for duration 
 		// specified in the music score table
-		for (j=0;j<Score_Tab[i]->delay;j++) 
+		for (uint8_t j = 0; j < Score_Tab[currentSong][note].delay; j++) 
+    {
 			Delay();
+    }
 		
 		SysTick_stop();
-		i++;  // move to the next note
+    note++;
   }
 }
 
 void next_song(void)
 {
   currentSong++;
-  currentSong = currentSong % 3;
+  currentSong = (currentSong + 1) % 3;
 }
 
 unsigned char is_music_on(void)
@@ -149,7 +165,6 @@ void Music_Init(void)
 void Delay(void){
 	unsigned long volatile time;
   time = 727240*20/91;  // 0.1sec for 16MHz
-//  time = 727240*100/91;  // 0.1sec for 80MHz
   while(time){
 		time--;
   }

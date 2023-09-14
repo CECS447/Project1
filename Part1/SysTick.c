@@ -7,7 +7,6 @@
 #include "tm4c123gh6pm.h"
 #include <stdint.h>
 
-// TODO: Update to PA3
 #define SPEAKER (*((volatile unsigned long *)0x40004020)) // define SPEAKER connects to PA2: 100
 #define Speaker_Toggle_Mask     0x00000008                // mask used to toggle the speaker output
 
