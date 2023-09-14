@@ -11,16 +11,17 @@
 
 #define SWITCH1_MASK 0x10
 #define SWITCH2_MASK 0x01
+#define PORTF0_UNLOCK 0x4C4F434B
 
 extern uint8_t musicOn;
 
 // Subroutine to initialize port F pins for the two onboard switches
 // enable PF4 and PF0 for SW1 and SW2 respectively with falling edge interrupt enabled.
-// Inputs: None
-// Outputs: None
 void Switch_Init(void)
 { 
     SYSCTL_RCGC2_R |= 0x00000020; // (a) activate clock for port F
+    GPIO_PORTF_LOCK_R = PORTF0_UNLOCK;
+    GPIO_PORTF_CR_R |= 0x11;
     GPIO_PORTF_DIR_R &= ~0x11;    // (c) make PF4 and PF0 in (built-in button)
     GPIO_PORTF_AFSEL_R &= ~0x11;  //     disable alt funct on PF4 and PF0
     GPIO_PORTF_DEN_R |= 0x11;     //     enable digital I/O on PF4 and PF0  

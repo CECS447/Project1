@@ -104,7 +104,7 @@ void play_a_song(void)
   uint8_t currentToneIndex = 0;
   uint8_t currentDelay = getToneIndex(note);
 
-	while (currentDelay & musicOn)
+	while (currentDelay && musicOn)
   {
     currentToneIndex = getToneIndex(note);
 
