@@ -14,6 +14,7 @@
 
 /************ Enums and Macros ************/
 
+// Available songs
 typedef enum {
   HAPPY_BIRTHDAY = 0,
   LITTLE_LAMB,
@@ -58,42 +59,47 @@ typedef enum{
 
 /**************************** Static Data Structures *****************************/
 
-// doe ray mi fa so la ti 
-// C   D   E  F  G  A  B
-static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {  
-{//so   so   la   so   doe' ti
-  G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
-// pause so   so   la   so   ray' doe'
-  PAUSE,4,  G4,2,G4,2,A4,4,G4,4,D5,4,C5,4,
-// pause so   so   so'  mi'  doe' ti   la
-  PAUSE,4,  G4,2,G4,2,G5,4,E5,4,C5,4,B4,4,A4,8, 
-// pause fa'  fa'   mi'  doe' ray' doe' stop
-	PAUSE,4,  F5,2,F5,2, E5,4,C5,4,D5,4,C5,8,0,0},
+static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = 
+{  
+  { // Happy Birthday
+    G4,    2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
+    PAUSE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
+    PAUSE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
+    PAUSE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
+  },
 
-// score table for Mary Had A Little Lamb
-{E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
- D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
- E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
- D4, 4, D4, 4, E4, 4, D4, 4, C4, 8, 0, 0 },
+  { // Mary Had a Little Lamb
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8,  0, 0 
+  },
 
-// score table for Twinkle Twinkle Little Stars
-{C4,4,C4,4,G4,4,G4,4,A4,4,A4,4,G4,8,F4,4,F4,4,E4,4,E4,4,D4,4,D4,4,C4,8, 
- G4,4,G4,4,F4,4,F4,4,E4,4,E4,4,D4,8,G4,4,G4,4,F4,4,F4,4,E4,4,E4,4,D4,8, 
- C4,4,C4,4,G4,4,G4,4,A4,4,A4,4,G4,8,F4,4,F4,4,E4,4,E4,4,D4,4,D4,4,C4,8,0,0},
 
+  { // Twinkle Twinkle Little Star
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
+    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 0, 0
+  },
 };
 
-// initail values for piano major notes: assume SysTick clock is 16MHz.
+// Piano Notes assuming 16MHz SysTick
+//   Note: C, D, E, F, G, A, B
+// Offset: 0, 1, 2, 3, 4, 5, 6
 static const unsigned long Tone_Tab[] =
-// initial values for three major notes for 16MHz system clock
-// Note name: C, D, E, F, G, A, B
-// Offset:0, 1, 2, 3, 4, 5, 6
-{30534,27211,24242,22923,20408,18182,16194, // C4 major notes
- 15289,13621,12135,11454,10204,9091,8099, // C5 major notes
- 7645,6810,6067,5727,5102,4545,4050};// C6 major notes
+{ 
+ 30534, 27211, 24242, 22923, 20408, 18182, 16194, // C4 major notes
+ 15289, 13621, 12135, 11454, 10204,  9091,  8099, // C5 major notes
+  7645,  6810,  6067,  5727,  5102,  4545,  4050  // C6 major notes
+};
 
+
+/******** Global Variables *********/
 volatile bool musicOn = 0;
-static volatile uint8_t currentNote = 0;
+
+
+/******** Static Local Variables *********/
+static volatile uint8_t currentNote    = 0;
 static volatile SONG_INDEX currentSong = 0;
 
 
@@ -110,6 +116,7 @@ static inline uint8_t getToneIndex(void);
 
   Description:
     Uses a hardcoded value to busy wait the indicated milliseconds.
+    Assumes 16MHz SysTick.
 
   Args:
     milliseconds = the amout of milliseconds to loiter 
@@ -184,6 +191,7 @@ void play_a_song(void)
 
     // Delay for break in notes
     DelayMS(5);
+
     currentDelay = getDelay();
     currentNote++;
   }
@@ -198,15 +206,15 @@ void play_a_song(void)
 void Music_Init(void)
 { 
   volatile unsigned long delay;
-  SYSCTL_RCGC2_R |= 0x01;           // 1) activate clock for Port A
-  delay = SYSCTL_RCGC2_R;           // allow time for clock to start
-                                    // 2) no need to unlock PA3
-  GPIO_PORTA_PCTL_R &= ~0x0000F000; // 3) regular GPIO
-  GPIO_PORTA_AMSEL_R &= ~0x08;      // 4) disable analog function on PA3
-  GPIO_PORTA_DIR_R |= 0x08;         // 5) set direction to output
-  GPIO_PORTA_AFSEL_R &= ~0x08;      // 6) regular port function
-  GPIO_PORTA_DEN_R |= 0x08;         // 7) enable digital port
-  GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
+  SYSCTL_RCGC2_R |= 0x01;            // 1) activate clock for Port A
+  delay = SYSCTL_RCGC2_R;            // allow time for clock to start
+                                     // 2) no need to unlock PA3
+  GPIO_PORTA_PCTL_R  &= ~0x0000F000; // 3) regular GPIO
+  GPIO_PORTA_AMSEL_R &= ~0x08;       // 4) disable analog function on PA3
+  GPIO_PORTA_DIR_R   |=  0x08;       // 5) set direction to output
+  GPIO_PORTA_AFSEL_R &= ~0x08;       // 6) regular port function
+  GPIO_PORTA_DEN_R   |=  0x08;       // 7) enable digital port
+  GPIO_PORTA_DR8R_R  |=  0x08;       // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
 }
 
 /******************************************************************************************
