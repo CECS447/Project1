@@ -9,18 +9,11 @@
 #include "switch.h"
 #include "SysTick.h"
 
-// 1. Pre-processor Directives Section
-// Constant declarations to access port registers using 
-// symbolic names instead of addresses
-
-// 2. Declarations Section
-
-// 3. Function Prototypes
+/**** Global Functions *****/
 extern void EnableInterrupts(void);
 extern void WaitForInterrupt(void);
 extern void DisableInterrupts(void);
 
-// 4. Subroutines Section
 // MAIN: Mandatory for a C Program to be executable
 // Do not change this main finction.
 int main(void){	

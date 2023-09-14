@@ -15,14 +15,16 @@
 /************ Enums and Macros ************/
 
 // Available songs
-typedef enum {
+typedef enum
+{
   HAPPY_BIRTHDAY = 0,
   LITTLE_LAMB,
   TWINKLE_LITTLE_STAR,
 } SONG_INDEX;
 
 // Index for notes used in the music scores
-typedef enum {
+typedef enum
+{
   C4 = 0,
   D4 = 1,
   E4 = 2,
@@ -51,7 +53,8 @@ typedef enum {
 } NOTE_INDEX;
 
 // Used for score tab 2D array control
-typedef enum{
+typedef enum
+{
   MAX_NOTES = 50,
   MAX_SONGS = 3,
 } SCORE_TAB_MAX;
