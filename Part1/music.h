@@ -10,8 +10,6 @@ struct Note {
 };
 typedef const struct Note NTyp;
 
-// Constant definitions
-#define NUM_SONGS 3
 
 // Function prototypes
 // play the current song once

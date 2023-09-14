@@ -12,55 +12,51 @@
 #include "music.h"
 #include "SysTick.h"
 
+/************ Enums and Macros ************/
+
 typedef enum {
   HAPPY_BIRTHDAY = 0,
   LITTLE_LAMB,
   TWINKLE_LITTLE_STAR,
-} SONG;
+} SONG_INDEX;
 
-void DelayMS(uint16_t milliseconds);
+// Index for notes used in the music scores
+typedef enum {
+  C4 = 0,
+  D4 = 1,
+  E4 = 2,
+  F4 = 3,
+  G4 = 4,
+  A4 = 5,
+  B4 = 6,
+
+  C5 = 0+7,
+  D5 = 1+7,
+  E5 = 2+7,
+  F5 = 3+7,
+  G5 = 4+7,
+  A5 = 5+7,
+  B5 = 6+7,
+
+  C6 = 0+2*7,
+  D6 = 1+2*7,
+  E6 = 2+2*7,
+  F6 = 3+2*7,
+  G6 = 4+2*7,
+  A6 = 5+2*7,
+  B6 = 6+2*7,
+
+  PAUSE = 255,
+} NOTE_INDEX;
+
+// Used for score tab 2D array control
+typedef enum{
+  MAX_NOTES = 50,
+  MAX_SONGS = 3,
+} SCORE_TAB_MAX;
 
 
-// initail values for piano major notes: assume SysTick clock is 16MHz.
-const unsigned long Tone_Tab[] =
-// initial values for three major notes for 16MHz system clock
-// Note name: C, D, E, F, G, A, B
-// Offset:0, 1, 2, 3, 4, 5, 6
-{30534,27211,24242,22923,20408,18182,16194, // C4 major notes
- 15289,13621,12135,11454,10204,9091,8099, // C5 major notes
- 7645,6810,6067,5727,5102,4545,4050};// C6 major notes
-
-// Index for notes used in music scores
-#define C4 0
-#define D4 1
-#define E4 2
-#define F4 3
-#define G4 4
-#define A4 5
-#define B4 6
-#define C5 0+7
-#define D5 1+7
-#define E5 2+7
-#define F5 3+7
-#define G5 4+7
-#define A5 5+7
-#define B5 6+7
-#define C6 0+2*7
-#define D6 1+2*7
-#define E6 2+2*7
-#define F6 3+2*7
-#define G6 4+2*7
-#define A6 5+2*7
-#define B6 6+2*7
-
-
-#define PAUSE 255			// assume there are less than 255 tones used in any song
-#define MAX_NOTES 50  // assume maximum number of notes in any song is 100. You can change this value if you add a long song.
-#define MAX_SONGS 3
-
-volatile bool musicOn = 0;
-static volatile uint8_t currentNote = 0;
-static volatile SONG currentSong = 0;
+/**************************** Static Data Structures *****************************/
 
 // doe ray mi fa so la ti 
 // C   D   E  F  G  A  B
@@ -86,15 +82,80 @@ static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
  C4,4,C4,4,G4,4,G4,4,A4,4,A4,4,G4,8,F4,4,F4,4,E4,4,E4,4,D4,4,D4,4,C4,8,0,0},
 
 };
+
+// initail values for piano major notes: assume SysTick clock is 16MHz.
+static const unsigned long Tone_Tab[] =
+// initial values for three major notes for 16MHz system clock
+// Note name: C, D, E, F, G, A, B
+// Offset:0, 1, 2, 3, 4, 5, 6
+{30534,27211,24242,22923,20408,18182,16194, // C4 major notes
+ 15289,13621,12135,11454,10204,9091,8099, // C5 major notes
+ 7645,6810,6067,5727,5102,4545,4050};// C6 major notes
+
+volatile bool musicOn = 0;
+static volatile uint8_t currentNote = 0;
+static volatile SONG_INDEX currentSong = 0;
+
+
+/******** Static Local Function Declarations ********/
+static void DelayMS(uint16_t milliseconds);
+static inline uint8_t getDelay(void);
+static inline uint8_t getToneIndex(void);
+
+
+/******** Static Local Function Definitions *********/
+
+/******************************************************************
+  Name: DelayMS
+
+  Description:
+    Uses a hardcoded value to busy wait the indicated milliseconds.
+
+  Args:
+    milliseconds = the amout of milliseconds to loiter 
+ ******************************************************************/
+void DelayMS(uint16_t milliseconds)
+{
+	unsigned long volatile ms_decrement;
+  ms_decrement = 1600 * milliseconds;
+  while(ms_decrement)
+  {
+    ms_decrement--;
+  }
+}
+
+/*********************************************************
+  Name: getDelay
+
+  Description:
+    Returns the delay of the current note in the Score Tab.
+ *********************************************************/
 static inline uint8_t getDelay(void)
 {
   return Score_Tab[currentSong][currentNote].delay;
 }
+
+/***************************************************************
+  Name: getToneIndex
+
+  Description:
+    Returns the tone index of the current note in the score tab.
+ ***************************************************************/
+
 static inline uint8_t getToneIndex(void)
 {
   return Score_Tab[currentSong][currentNote].tone_index;
 }
 
+
+/************************************** Public Functon Definitions ******************************************/
+
+/**********************************************************************************************
+  Name: play_a_song
+
+  Description:
+    Plays the current song selected by the program, by stepping through the 2D array score tab.
+ **********************************************************************************************/
 void play_a_song(void)
 {
   uint8_t currentToneIndex = 0;
@@ -128,41 +189,12 @@ void play_a_song(void)
   }
 }
 
-// Round robin song selection
-void next_song(void)
-{
-  if ( currentSong == TWINKLE_LITTLE_STAR )
-  {
-    currentSong = HAPPY_BIRTHDAY;
-  }
-  else
-  {
-    currentSong++;
-  }
-  currentNote = 0;
-}
+/******************************************************************************************
+  Name: Music_Init
 
-// Getter for current music state
-bool is_music_on(void)
-{
-  return musicOn;
-}
-
-// Turn music on
-void turn_off_music(void)
-{
-  musicOn = false;
-  SysTick_stop();
-}
-
-// Turn music off
-void turn_on_music(void)
-{
-  musicOn = true;
-  SysTick_start();
-}
-
-// Make PA3 an output to the speaker, enable digital I/O, ensure alt. functions off
+  Description:
+    Initialize the GPIO that drives the buzzer.    
+ ******************************************************************************************/
 void Music_Init(void)
 { 
   volatile unsigned long delay;
@@ -177,13 +209,57 @@ void Music_Init(void)
   GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
 }
 
-// Wait for 
-void DelayMS(uint16_t milliseconds)
+/******************************************************************************************
+  Name: next_song
+
+  Description:
+    Selects the next song in a round robin fashion. Resets the current note so that the new 
+    queued song starts from the beginning.
+ ******************************************************************************************/
+void next_song(void)
 {
-	unsigned long volatile ms_decrement;
-  ms_decrement = 1600 * milliseconds;
-  while(ms_decrement)
+  if ( currentSong == TWINKLE_LITTLE_STAR )
   {
-    ms_decrement--;
+    currentSong = HAPPY_BIRTHDAY;
   }
+  else
+  {
+    currentSong++;
+  }
+  currentNote = 0;
+}
+
+/******************************************************************************************
+  Name: is_music_on
+
+  Description:
+    Getter function for the musicOn variable, representing music on / off state.
+ ******************************************************************************************/
+bool is_music_on(void)
+{
+  return musicOn;
+}
+
+/******************************************************************************************
+  Name: turn_off_music
+
+  Description:
+    Sets the musicOn variable to false, and ceases music operation by disabling SysTick.
+ ******************************************************************************************/
+void turn_off_music(void)
+{
+  musicOn = false;
+  SysTick_stop();
+}
+
+/******************************************************************************************
+  Name: turn_on_music
+
+  Description:
+    Sets the musicOn variable to true, and starts music operation by enabling SysTick.
+ ******************************************************************************************/
+void turn_on_music(void)
+{
+  musicOn = true;
+  SysTick_start();
 }
