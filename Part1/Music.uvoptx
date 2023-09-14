@@ -196,9 +196,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>57</LineNumber>
+          <LineNumber>42</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1048</Address>
+          <Address>976</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -207,12 +207,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part1\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part1\switch.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Music\switch.c\57</Expression>
+          <Expression>\\Music\switch.c\42</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>138</LineNumber>
+          <LineNumber>57</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -221,11 +221,18 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>.\music.c</Filename>
+          <Filename>.\switch.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
       </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>musicOn</ItemText>
+        </Ww>
+      </WatchWindow1>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>

@@ -9,9 +9,8 @@
 #include "music.h"
 #include "SysTick.h"
 
-void Delay(void);
+void DelayMS(uint16_t multiple);
 
-static volatile uint8_t currentSong = 0;
 
 // initail values for piano major notes: assume SysTick clock is 16MHz.
 const unsigned long Tone_Tab[] =
@@ -23,18 +22,6 @@ const unsigned long Tone_Tab[] =
  7645,6810,6067,5727,5102,4545,4050};// C6 major notes
 
 // Index for notes used in music scores
-#define C5 0+7
-#define D5 1+7
-#define E5 2+7
-#define F5 3+7
-#define G5 4+7
-#define A5 5+7
-#define B5 6+7
-#define C6 0+2*7
-#define D6 1+2*7
-#define E6 2+2*7
-#define F6 3+2*7
-#define G6 4+2*7
 #define C4 0
 #define D4 1
 #define E4 2
@@ -58,25 +45,25 @@ const unsigned long Tone_Tab[] =
 #define B6 6+2*7
 
 
-#define PAUSE 255				// assume there are less than 255 tones used in any song
+#define PAUSE 255			// assume there are less than 255 tones used in any song
 #define MAX_NOTES 50  // assume maximum number of notes in any song is 100. You can change this value if you add a long song.
 #define MAX_SONGS 3
 volatile uint8_t musicOn = 0;
+static volatile uint8_t note = 0;
+static volatile uint8_t currentSong = 0;
 
 // doe ray mi fa so la ti 
 // C   D   E  F  G  A  B
 static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {  
-// score table for Happy Birthday
-{
-    G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
+{//so   so   la   so   doe' ti
+  G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
 // pause so   so   la   so   ray' doe'
-   PAUSE,4,  G4,2,G4,2,A4,4,G4,4,D5,4,C5,4,
+  PAUSE,4,  G4,2,G4,2,A4,4,G4,4,D5,4,C5,4,
 // pause so   so   so'  mi'  doe' ti   la
-   PAUSE,4, G4,2,G4,2,G5,4,E5,4,C5,4,B4,4,A4,8, 
-// pause fa'  fa'   mi'  doe' ray' doe'  stop
-	 PAUSE,4,  F5,2,F5,2, E5,4,C5,4,D5,4,C5,8, 0,0
-},
- 
+  PAUSE,4,  G4,2,G4,2,G5,4,E5,4,C5,4,B4,4,A4,8, 
+// pause fa'  fa'   mi'  doe' ray' doe' stop
+	PAUSE,4,  F5,2,F5,2, E5,4,C5,4,D5,4,C5,8,0,0},
+
 // score table for Mary Had A Little Lamb
 {E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
  D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
@@ -89,24 +76,22 @@ static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
  C4,4,C4,4,G4,4,G4,4,A4,4,A4,4,G4,8,F4,4,F4,4,E4,4,E4,4,D4,4,D4,4,C4,8,0,0},
 
 };
-static inline uint8_t getDelay(uint8_t note)
+static inline uint8_t getDelay(void)
 {
   return Score_Tab[currentSong][note].delay;
 }
-static inline uint8_t getToneIndex(uint8_t note)
+static inline uint8_t getToneIndex(void)
 {
   return Score_Tab[currentSong][note].tone_index;
 }
 
 void play_a_song(void)
 {
-  uint8_t note = 0;
   uint8_t currentToneIndex = 0;
-  uint8_t currentDelay = getToneIndex(note);
-
+  uint8_t currentDelay = getToneIndex();
 	while (currentDelay && musicOn)
   {
-    currentToneIndex = getToneIndex(note);
+    currentToneIndex = getToneIndex();
 
     // Silence by disabling SysTick
     if ( currentToneIndex == PAUSE)
@@ -120,15 +105,15 @@ void play_a_song(void)
 			SysTick_start();
 		}
 		
-		// Play current note for specified duration
-		for (uint8_t j = 0; j < currentDelay; j++) 
-    {
-			Delay();
-    }
+		// Play current note for specified duration; delay is in 100ms intervals.
+		DelayMS(currentDelay * 100);
 		
     // Increment note
 		SysTick_stop();
-    currentDelay = getDelay(note);
+
+    // Delay for break in notes
+    DelayMS(5);
+    currentDelay = getDelay();
     note++;
   }
 }
@@ -136,8 +121,15 @@ void play_a_song(void)
 // Round robin song selection
 void next_song(void)
 {
-  currentSong++;
-  currentSong = (currentSong + 1) % 3;
+  if ( currentSong == 2 )
+  {
+    currentSong = 0;
+  }
+  else
+  {
+    currentSong++;
+  }
+  note = 0;
 }
 
 // Getter for current music state
@@ -175,12 +167,12 @@ void Music_Init(void)
   GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
 }
 
-// Subroutine to wait 0.1 sec
-void Delay(void){
+void DelayMS(uint16_t multiple)
+{
 	unsigned long volatile time;
-  time = 727240*20/91;  // 0.1sec for 16MHz
+  time = 1600 * multiple;
   while(time)
   {
-		time--;
+    time--;
   }
 }
