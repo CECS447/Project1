@@ -65,7 +65,7 @@ volatile uint8_t musicOn = 0;
 
 // doe ray mi fa so la ti 
 // C   D   E  F  G  A  B
-NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {  
+static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {  
 // score table for Happy Birthday
 {
     G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
@@ -89,54 +89,71 @@ NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
  C4,4,C4,4,G4,4,G4,4,A4,4,A4,4,G4,8,F4,4,F4,4,E4,4,E4,4,D4,4,D4,4,C4,8,0,0},
 
 };
+static inline uint8_t getDelay(uint8_t note)
+{
+  return Score_Tab[currentSong][note].delay;
+}
+static inline uint8_t getToneIndex(uint8_t note)
+{
+  return Score_Tab[currentSong][note].tone_index;
+}
 
 void play_a_song(void)
 {
   uint8_t note = 0;
   uint8_t currentToneIndex = 0;
-	while (Score_Tab[currentSong][note].delay & musicOn)
+  uint8_t currentDelay = getToneIndex(note);
+
+	while (currentDelay & musicOn)
   {
-    currentToneIndex = Score_Tab[currentSong][note].tone_index;
-		if ( currentToneIndex ==PAUSE)
-    { // index = 255 indicate a pause: stop systick
-			SysTick_stop(); // silence tone, turn off SysTick timer
+    currentToneIndex = getToneIndex(note);
+
+    // Silence by disabling SysTick
+    if ( currentToneIndex == PAUSE)
+    {
+			SysTick_stop();
     }
+    // Set current note based on Tone Table
 		else 
     {
       SysTick_Set_Current_Note(Tone_Tab[currentToneIndex]);
 			SysTick_start();
 		}
 		
-		// tempo control: 
-		// play current note for duration 
-		// specified in the music score table
-		for (uint8_t j = 0; j < Score_Tab[currentSong][note].delay; j++) 
+		// Play current note for specified duration
+		for (uint8_t j = 0; j < currentDelay; j++) 
     {
 			Delay();
     }
 		
+    // Increment note
 		SysTick_stop();
+    currentDelay = getDelay(note);
     note++;
   }
 }
 
+// Round robin song selection
 void next_song(void)
 {
   currentSong++;
   currentSong = (currentSong + 1) % 3;
 }
 
+// Getter for current music state
 unsigned char is_music_on(void)
 {
   return musicOn;
 }
 
+// Turn music on
 void turn_off_music(void)
 {
   musicOn = 0;
   SysTick_stop();
 }
 
+// Turn music off
 void turn_on_music(void)
 {
   musicOn = 1;
@@ -159,13 +176,11 @@ void Music_Init(void)
 }
 
 // Subroutine to wait 0.1 sec
-// Inputs: None
-// Outputs: None
-// Notes: ...
 void Delay(void){
 	unsigned long volatile time;
   time = 727240*20/91;  // 0.1sec for 16MHz
-  while(time){
+  while(time)
+  {
 		time--;
   }
 }
