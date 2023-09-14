@@ -4,16 +4,17 @@
 // Author: Min He
 // August 26, 2022
 
+#include <stdbool.h>
+
 #include "tm4c123gh6pm.h"
 #include "switch.h"
 #include "music.h"
-#include <stdbool.h>
 
 #define SWITCH1_MASK 0x10
 #define SWITCH2_MASK 0x01
 #define PORTF0_UNLOCK 0x4C4F434B
 
-extern uint8_t musicOn;
+extern bool musicOn;
 
 // Subroutine to initialize port F pins for the two onboard switches
 // enable PF4 and PF0 for SW1 and SW2 respectively with falling edge interrupt enabled.

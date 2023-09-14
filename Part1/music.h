@@ -1,6 +1,7 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 #include <stdint.h>
+#include <stdbool.h>
 
 // define music note data structure 
 struct Note {
@@ -25,7 +26,7 @@ void Music_Init(void);
 void next_song(void);
 
 // check to see if the music is on or not
-uint8_t is_music_on(void);
+bool is_music_on(void);
 
 // turn off the music
 void turn_off_music(void);

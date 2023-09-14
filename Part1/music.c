@@ -5,11 +5,20 @@
 // Authors: Min He
 // Date: August 28, 2018
 
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "tm4c123gh6pm.h"
 #include "music.h"
 #include "SysTick.h"
 
-void DelayMS(uint16_t multiple);
+typedef enum {
+  HAPPY_BIRTHDAY = 0,
+  LITTLE_LAMB,
+  TWINKLE_LITTLE_STAR,
+} SONG;
+
+void DelayMS(uint16_t milliseconds);
 
 
 // initail values for piano major notes: assume SysTick clock is 16MHz.
@@ -48,9 +57,10 @@ const unsigned long Tone_Tab[] =
 #define PAUSE 255			// assume there are less than 255 tones used in any song
 #define MAX_NOTES 50  // assume maximum number of notes in any song is 100. You can change this value if you add a long song.
 #define MAX_SONGS 3
-volatile uint8_t musicOn = 0;
-static volatile uint8_t note = 0;
-static volatile uint8_t currentSong = 0;
+
+volatile bool musicOn = 0;
+static volatile uint8_t currentNote = 0;
+static volatile SONG currentSong = 0;
 
 // doe ray mi fa so la ti 
 // C   D   E  F  G  A  B
@@ -78,11 +88,11 @@ static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = {
 };
 static inline uint8_t getDelay(void)
 {
-  return Score_Tab[currentSong][note].delay;
+  return Score_Tab[currentSong][currentNote].delay;
 }
 static inline uint8_t getToneIndex(void)
 {
-  return Score_Tab[currentSong][note].tone_index;
+  return Score_Tab[currentSong][currentNote].tone_index;
 }
 
 void play_a_song(void)
@@ -114,26 +124,26 @@ void play_a_song(void)
     // Delay for break in notes
     DelayMS(5);
     currentDelay = getDelay();
-    note++;
+    currentNote++;
   }
 }
 
 // Round robin song selection
 void next_song(void)
 {
-  if ( currentSong == 2 )
+  if ( currentSong == TWINKLE_LITTLE_STAR )
   {
-    currentSong = 0;
+    currentSong = HAPPY_BIRTHDAY;
   }
   else
   {
     currentSong++;
   }
-  note = 0;
+  currentNote = 0;
 }
 
 // Getter for current music state
-unsigned char is_music_on(void)
+bool is_music_on(void)
 {
   return musicOn;
 }
@@ -141,14 +151,14 @@ unsigned char is_music_on(void)
 // Turn music on
 void turn_off_music(void)
 {
-  musicOn = 0;
+  musicOn = false;
   SysTick_stop();
 }
 
 // Turn music off
 void turn_on_music(void)
 {
-  musicOn = 1;
+  musicOn = true;
   SysTick_start();
 }
 
@@ -167,12 +177,13 @@ void Music_Init(void)
   GPIO_PORTA_DR8R_R |= 0x08;        // 8) optional: enable 8 mA drive on PA3 to increase the voice volumn
 }
 
-void DelayMS(uint16_t multiple)
+// Wait for 
+void DelayMS(uint16_t milliseconds)
 {
-	unsigned long volatile time;
-  time = 1600 * multiple;
-  while(time)
+	unsigned long volatile ms_decrement;
+  ms_decrement = 1600 * milliseconds;
+  while(ms_decrement)
   {
-    time--;
+    ms_decrement--;
   }
 }
