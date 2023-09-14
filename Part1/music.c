@@ -256,11 +256,13 @@ bool is_music_on(void)
 
   Description:
     Sets the musicOn variable to false, and ceases music operation by disabling SysTick.
+    Sets current note to 0 to ensure next playback resets the song.
  ******************************************************************************************/
 void turn_off_music(void)
 {
   musicOn = false;
   SysTick_stop();
+  currentNote = 0;
 }
 
 /******************************************************************************************
