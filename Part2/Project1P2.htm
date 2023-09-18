@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Project1P2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Project1P2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Mon Sep 18 01:39:28 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Mon Sep 18 01:48:33 2023
 <BR><P>
 <H3>Maximum Stack Usage =         20 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -776,7 +776,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d]"></a>GPIOPortD_Handler</STRONG> (Thumb, 306 bytes, Stack size 16 bytes, sound.o(.text.GPIOPortD_Handler))
+<P><STRONG><a name="[d]"></a>GPIOPortD_Handler</STRONG> (Thumb, 330 bytes, Stack size 16 bytes, sound.o(.text.GPIOPortD_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = GPIOPortD_Handler &rArr; Sound_Start
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sound_Start
@@ -784,7 +784,9 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, sound.o(.text.GPIOPortF_Handler))
+<P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 178 bytes, Stack size 4 bytes, sound.o(.text.GPIOPortF_Handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = GPIOPortF_Handler
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[94]"></a>PianoKeys_Init</STRONG> (Thumb, 226 bytes, Stack size 0 bytes, buttonled.o(.text.PianoKeys_Init))

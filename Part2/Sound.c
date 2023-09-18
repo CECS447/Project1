@@ -9,6 +9,7 @@
 
 #include "tm4c123gh6pm.h"
 #include "Sound.h"
+#include "ButtonLed.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -20,6 +21,7 @@ extern void EnableInterrupts(void);  // Enable interrupts
 // define bit addresses for Port B bits 0,1,2,3,4,5 => DAC inputs 
 #define DAC (*((volatile unsigned long *)0x4000501C))
 unsigned char Index;  	
+unsigned char currentOctave;
 // 6-bit: value range 0 to 2^6-1=63, 64 samples
 const uint8_t SineWave[64] = {32,35,38,41,44,47,49,52,54,56,58,59,61,62,62,63,63,63,62,62,
 															61,59,58,56,54,52,49,47,44,41,38,35,32,29,26,23,20,17,15,12,
@@ -165,18 +167,18 @@ void SysTick_Handler(void){
 
 void GPIOPortF_Handler(void){
 	// simple debouncing code: generate 20ms to 30ms delay
-	// for (uint32_t time=0;time<72724;time++) {}
+	for (uint32_t time=0;time<72724;time++) {}
 
-  // if ( GPIO_PORTF_RIS_R & SWITCH1_MASK )
-  // {
-  //   curr_mode = !curr_mode;
-  //   GPIO_PORTF_RIS_R |= SWITCH1_MASK; // Ack interrupt 
-  // }
-  // else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK)
-  // {
-  //   GPIO_PORTF_RIS_R |= SWITCH2_MASK; // Ack interrupt 
-   // }
-  // } 
+  if ( GPIO_PORTF_RIS_R & SWITCH1_MASK )
+  {
+    curr_mode = !curr_mode;
+    GPIO_PORTF_ICR_R |= SWITCH1_MASK; // Ack interrupt 
+  }
+  else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK & (curr_mode == PIANO) )
+  {
+    currentOctave = (currentOctave + 1) % 3;
+    GPIO_PORTF_ICR_R |= SWITCH2_MASK; // Ack interrupt 
+  }
 }
 
 // Dependency: Requires PianoKeys_Init to be called first, assume at any time only one key is pressed
@@ -220,6 +222,8 @@ void GPIOPortD_Handler(void){
     Note = F5;
     GPIO_PORTD_ICR_R |= KEY_F_MASK; // Ack interrupt 
   }
+
+  Note = Note + ( currentOctave * 7);
 
   if ( pressed )
   {
