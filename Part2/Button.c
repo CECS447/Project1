@@ -59,7 +59,7 @@ void PianoKeys_Init(void){
     GPIO_PORTF_AMSEL_R  = 0;           //     disable analog functionality on PD
     GPIO_PORTF_PUR_R   |= 0x0F;        //     enable weak pull-up on PD0 - PD3
     GPIO_PORTF_IS_R    &= ~0x0F;       // (d) PD0 - PD3 are edge-sensitive
-    GPIO_PORTF_IBE_R   &= ~0x0F;       //     PD0 - PD3 are not both edges
+    GPIO_PORTF_IBE_R   |= 0x0F;       //     PD0 - PD3 are both edges
     GPIO_PORTF_IEV_R   &= ~0x0F;       //     PD0 - PD3 falling edge event
     GPIO_PORTF_ICR_R   |= 0x0F;        // (e) clear flag 0 - 3
     GPIO_PORTF_IM_R    |= 0x0F;        // (f) arm interrupt on PD0 - PD3
