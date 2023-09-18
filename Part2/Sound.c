@@ -172,7 +172,16 @@ void GPIOPortF_Handler(void){
 
   if ( GPIO_PORTF_RIS_R & SWITCH1_MASK )
   {
-    curr_mode = (curr_mode == PIANO) ? AUTO_PLAY : PIANO;
+    if ( curr_mode == PIANO )
+    {
+      curr_mode = AUTO_PLAY;
+      GPIO_PORTD_IM_R    &= ~0x0F;        // (f) disarm interrupt on PD0 - PD3
+    }
+    else if ( curr_mode == AUTO_PLAY)
+    {
+      curr_mode = PIANO;
+      GPIO_PORTD_IM_R |= 0x0F; // renable interrupts
+    }
     GPIO_PORTF_ICR_R |= SWITCH1_MASK; // Ack interrupt 
   }
   else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK & (curr_mode == PIANO) )
