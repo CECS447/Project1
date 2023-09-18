@@ -20,6 +20,7 @@ typedef enum
 
 // Global musicOn variable
 extern bool musicOn;
+extern uint8_t octave;
 
 // Initialize Switches
 void Switch_Init(void)
@@ -45,8 +46,15 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
+    if ( GPIO_PORTF_RIS_R & ( SWITCH1_MASK & SWITCH2_MASK ) )
+    {
+        octave = (octave + 1) % 3;
+       GPIO_PORTD_PDR_R |= (SWITCH1_MASK || SWITCH2_MASK); //ack interrupt 
+    }
+
+
     // Switch 1 Pressed, controls if music is on or off
-    if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
+    else if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
         if ( !musicOn )
         {
