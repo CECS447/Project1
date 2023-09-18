@@ -75,8 +75,8 @@ typedef enum
 {
   KEY_C_MASK = 0x01, 
   KEY_D_MASK = 0x02, 
-  KEY_E_MASK = 0x03, 
-  KEY_F_MASK = 0x04,
+  KEY_E_MASK = 0x04, 
+  KEY_F_MASK = 0x08,
 
   SWITCH1_MASK  = 0x10,
   SWITCH2_MASK  = 0x01, 

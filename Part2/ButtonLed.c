@@ -57,7 +57,7 @@ void PianoKeys_Init(void){
     GPIO_PORTD_DEN_R   |=  0x0F;       //     enable digital I/O on PD0 - PD3 
     GPIO_PORTD_PCTL_R  &= ~0x0000FFFF; // configure PF4 and PF0 as GPIO
     GPIO_PORTD_AMSEL_R  = 0;           //     disable analog functionality on PD
-    GPIO_PORTD_PUR_R   &= ~0x0F;        //     enable weak pull-up on PD0 - PD3
+    GPIO_PORTD_PDR_R   |= 0x0F;        //     enable weak pull-up on PD0 - PD3
     GPIO_PORTD_IS_R    &= ~0x0F;       // (d) PD0 - PD3 are edge-sensitive
     GPIO_PORTD_IBE_R   |= 0x0F;       //     PD0 - PD3 are both edges
     GPIO_PORTD_IEV_R   &= ~0x0F;       //     PD0 - PD3 falling edge event

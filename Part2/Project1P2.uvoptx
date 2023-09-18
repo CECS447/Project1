@@ -119,6 +119,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -192,34 +196,66 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>292</LineNumber>
+          <LineNumber>235</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2558</Address>
+          <Address>1638</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\\wsl.localhost\Ubuntu-22.04\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
+          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project1P2\Sound.c\292</Expression>
+          <Expression>\\Project1P2\Sound.c\235</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>288</LineNumber>
+          <LineNumber>240</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>1680</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>.\Sound.c</Filename>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\Project1P2\Sound.c\240</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>230</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1598</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project1P2\Sound.c\230</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>224</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1544</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project1P2\Sound.c\224</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

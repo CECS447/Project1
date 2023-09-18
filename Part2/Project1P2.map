@@ -569,7 +569,7 @@ Image Symbol Table
     ButtonLed_Init                           0x000003cd   Thumb Code   258  buttonled.o(.text.ButtonLed_Init)
     DAC_Init                                 0x000004d1   Thumb Code   152  sound.o(.text.DAC_Init)
     DelayMS                                  0x00000569   Thumb Code    38  sound.o(.text.DelayMS)
-    GPIOPortD_Handler                        0x00000591   Thumb Code   346  sound.o(.text.GPIOPortD_Handler)
+    GPIOPortD_Handler                        0x00000591   Thumb Code   348  sound.o(.text.GPIOPortD_Handler)
     GPIOPortF_Handler                        0x000006ed   Thumb Code   352  sound.o(.text.GPIOPortF_Handler)
     PianoKeys_Init                           0x0000084d   Thumb Code   226  buttonled.o(.text.PianoKeys_Init)
     Sound_Start                              0x00000931   Thumb Code    50  sound.o(.text.Sound_Start)
@@ -668,8 +668,7 @@ Memory Map of the image
     0x000004d0   0x000004d0   0x00000098   Code   RO           13    .text.DAC_Init      sound.o
     0x00000568   0x00000568   0x00000026   Code   RO           25    .text.DelayMS       sound.o
     0x0000058e   0x0000058e   0x00000002   PAD
-    0x00000590   0x00000590   0x0000015a   Code   RO           23    .text.GPIOPortD_Handler  sound.o
-    0x000006ea   0x000006ea   0x00000002   PAD
+    0x00000590   0x00000590   0x0000015c   Code   RO           23    .text.GPIOPortD_Handler  sound.o
     0x000006ec   0x000006ec   0x00000160   Code   RO           21    .text.GPIOPortF_Handler  sound.o
     0x0000084c   0x0000084c   0x000000e2   Code   RO           60    .text.PianoKeys_Init  buttonled.o
     0x0000092e   0x0000092e   0x00000002   PAD
@@ -723,13 +722,13 @@ Image component sizes
 
        496          0          0          0          1        862   buttonled.o
         66          0          0          0          0        435   project1p2.o
-      1312          0       6296          1          4       3287   sound.o
+      1314          0       6296          1          4       3287   sound.o
        692        632          0          0       1024       1028   startup.o
 
     ----------------------------------------------------------------------
       2584        632       6328          4       1032       5612   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        18          0          0          3          3          0   (incl. Padding)
+        16          0          0          3          3          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
