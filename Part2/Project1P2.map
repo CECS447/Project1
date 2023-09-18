@@ -26,7 +26,6 @@ Section Cross References
     sound.o(.text.GPIOPortF_Handler) refers to sound.o(.bss.curr_song) for curr_song
     sound.o(.text.GPIOPortF_Handler) refers to sound.o(.bss.curr_note) for curr_note
     sound.o(.ARM.exidx.text.GPIOPortF_Handler) refers to sound.o(.text.GPIOPortF_Handler) for [Anonymous Symbol]
-    sound.o(.text.GPIOPortD_Handler) refers to buttonled.o(.bss.curr_mode) for curr_mode
     sound.o(.text.GPIOPortD_Handler) refers to sound.o(.data.GPIOPortD_Handler.pressed) for GPIOPortD_Handler.pressed
     sound.o(.text.GPIOPortD_Handler) refers to sound.o(.bss.octave) for octave
     sound.o(.text.GPIOPortD_Handler) refers to sound.o(.rodata.tonetab) for tonetab
@@ -38,6 +37,7 @@ Section Cross References
     sound.o(.text.play_a_song) refers to buttonled.o(.bss.curr_mode) for curr_mode
     sound.o(.text.play_a_song) refers to sound.o(.text.getToneIndex) for getToneIndex
     sound.o(.text.play_a_song) refers to sound.o(.text.Sound_Stop) for Sound_Stop
+    sound.o(.text.play_a_song) refers to sound.o(.bss.octave) for octave
     sound.o(.text.play_a_song) refers to sound.o(.rodata.tonetab) for tonetab
     sound.o(.text.play_a_song) refers to sound.o(.text.Sound_Start) for Sound_Start
     sound.o(.text.play_a_song) refers to sound.o(.text.DelayMS) for DelayMS
@@ -320,20 +320,20 @@ Image Symbol Table
     [Anonymous Symbol]                       0x000004d0   Section        0  sound.o(.text.DAC_Init)
     [Anonymous Symbol]                       0x00000568   Section        0  sound.o(.text.DelayMS)
     [Anonymous Symbol]                       0x00000590   Section        0  sound.o(.text.GPIOPortD_Handler)
-    [Anonymous Symbol]                       0x000006f8   Section        0  sound.o(.text.GPIOPortF_Handler)
-    [Anonymous Symbol]                       0x00000810   Section        0  buttonled.o(.text.PianoKeys_Init)
-    [Anonymous Symbol]                       0x000008f4   Section        0  sound.o(.text.Sound_Start)
-    [Anonymous Symbol]                       0x00000928   Section        0  sound.o(.text.Sound_Stop)
-    [Anonymous Symbol]                       0x0000093c   Section        0  sound.o(.text.SysTick_Handler)
-    getDelay                                 0x00000969   Thumb Code    44  sound.o(.text.getDelay)
-    [Anonymous Symbol]                       0x00000968   Section        0  sound.o(.text.getDelay)
-    getToneIndex                             0x00000995   Thumb Code    42  sound.o(.text.getToneIndex)
-    [Anonymous Symbol]                       0x00000994   Section        0  sound.o(.text.getToneIndex)
-    [Anonymous Symbol]                       0x000009c0   Section        0  buttonled.o(.text.get_current_mode)
-    [Anonymous Symbol]                       0x000009cc   Section        0  project1p2.o(.text.main)
-    [Anonymous Symbol]                       0x00000a10   Section        0  sound.o(.text.play_a_song)
-    playlist                                 0x00000b24   Data        6120  sound.o(.rodata.playlist)
-    [Anonymous Symbol]                       0x00000b24   Section        0  sound.o(.rodata.playlist)
+    [Anonymous Symbol]                       0x000006ec   Section        0  sound.o(.text.GPIOPortF_Handler)
+    [Anonymous Symbol]                       0x00000804   Section        0  buttonled.o(.text.PianoKeys_Init)
+    [Anonymous Symbol]                       0x000008e8   Section        0  sound.o(.text.Sound_Start)
+    [Anonymous Symbol]                       0x0000091c   Section        0  sound.o(.text.Sound_Stop)
+    [Anonymous Symbol]                       0x00000930   Section        0  sound.o(.text.SysTick_Handler)
+    getDelay                                 0x0000095d   Thumb Code    44  sound.o(.text.getDelay)
+    [Anonymous Symbol]                       0x0000095c   Section        0  sound.o(.text.getDelay)
+    getToneIndex                             0x00000989   Thumb Code    42  sound.o(.text.getToneIndex)
+    [Anonymous Symbol]                       0x00000988   Section        0  sound.o(.text.getToneIndex)
+    [Anonymous Symbol]                       0x000009b4   Section        0  buttonled.o(.text.get_current_mode)
+    [Anonymous Symbol]                       0x000009c0   Section        0  project1p2.o(.text.main)
+    [Anonymous Symbol]                       0x00000a04   Section        0  sound.o(.text.play_a_song)
+    playlist                                 0x00000b28   Data        6120  sound.o(.rodata.playlist)
+    [Anonymous Symbol]                       0x00000b28   Section        0  sound.o(.rodata.playlist)
     GPIOPortD_Handler.pressed                0x20000000   Data           1  sound.o(.data.GPIOPortD_Handler.pressed)
     [Anonymous Symbol]                       0x20000000   Section        0  sound.o(.data.GPIOPortD_Handler.pressed)
     .bss                                     0x20000008   Section       96  libspace.o(.bss)
@@ -569,19 +569,19 @@ Image Symbol Table
     ButtonLed_Init                           0x000003cd   Thumb Code   258  buttonled.o(.text.ButtonLed_Init)
     DAC_Init                                 0x000004d1   Thumb Code   152  sound.o(.text.DAC_Init)
     DelayMS                                  0x00000569   Thumb Code    38  sound.o(.text.DelayMS)
-    GPIOPortD_Handler                        0x00000591   Thumb Code   360  sound.o(.text.GPIOPortD_Handler)
-    GPIOPortF_Handler                        0x000006f9   Thumb Code   278  sound.o(.text.GPIOPortF_Handler)
-    PianoKeys_Init                           0x00000811   Thumb Code   226  buttonled.o(.text.PianoKeys_Init)
-    Sound_Start                              0x000008f5   Thumb Code    50  sound.o(.text.Sound_Start)
-    Sound_Stop                               0x00000929   Thumb Code    18  sound.o(.text.Sound_Stop)
-    SysTick_Handler                          0x0000093d   Thumb Code    42  sound.o(.text.SysTick_Handler)
-    get_current_mode                         0x000009c1   Thumb Code    12  buttonled.o(.text.get_current_mode)
-    main                                     0x000009cd   Thumb Code    66  project1p2.o(.text.main)
-    play_a_song                              0x00000a11   Thumb Code   212  sound.o(.text.play_a_song)
-    SineWave                                 0x00000ae4   Data          64  sound.o(.rodata.SineWave)
-    tonetab                                  0x0000230c   Data         112  sound.o(.rodata.tonetab)
-    Region$$Table$$Base                      0x0000237c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0000239c   Number         0  anon$$obj.o(Region$$Table)
+    GPIOPortD_Handler                        0x00000591   Thumb Code   346  sound.o(.text.GPIOPortD_Handler)
+    GPIOPortF_Handler                        0x000006ed   Thumb Code   278  sound.o(.text.GPIOPortF_Handler)
+    PianoKeys_Init                           0x00000805   Thumb Code   226  buttonled.o(.text.PianoKeys_Init)
+    Sound_Start                              0x000008e9   Thumb Code    50  sound.o(.text.Sound_Start)
+    Sound_Stop                               0x0000091d   Thumb Code    18  sound.o(.text.Sound_Stop)
+    SysTick_Handler                          0x00000931   Thumb Code    42  sound.o(.text.SysTick_Handler)
+    get_current_mode                         0x000009b5   Thumb Code    12  buttonled.o(.text.get_current_mode)
+    main                                     0x000009c1   Thumb Code    66  project1p2.o(.text.main)
+    play_a_song                              0x00000a05   Thumb Code   228  sound.o(.text.play_a_song)
+    SineWave                                 0x00000ae8   Data          64  sound.o(.rodata.SineWave)
+    tonetab                                  0x00002310   Data         112  sound.o(.rodata.tonetab)
+    Region$$Table$$Base                      0x00002380   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x000023a0   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x20000008   Data          96  libspace.o(.bss)
     Index                                    0x20000068   Data           1  sound.o(.bss.Index)
     __temporary_stack_top$libspace           0x20000068   Data           0  libspace.o(.bss)
@@ -598,9 +598,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000023a0, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000023a4, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x0000239c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000023a0, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -668,38 +668,39 @@ Memory Map of the image
     0x000004d0   0x000004d0   0x00000098   Code   RO           13    .text.DAC_Init      sound.o
     0x00000568   0x00000568   0x00000026   Code   RO           25    .text.DelayMS       sound.o
     0x0000058e   0x0000058e   0x00000002   PAD
-    0x00000590   0x00000590   0x00000168   Code   RO           23    .text.GPIOPortD_Handler  sound.o
-    0x000006f8   0x000006f8   0x00000116   Code   RO           21    .text.GPIOPortF_Handler  sound.o
-    0x0000080e   0x0000080e   0x00000002   PAD
-    0x00000810   0x00000810   0x000000e2   Code   RO           60    .text.PianoKeys_Init  buttonled.o
-    0x000008f2   0x000008f2   0x00000002   PAD
-    0x000008f4   0x000008f4   0x00000032   Code   RO           17    .text.Sound_Start   sound.o
-    0x00000926   0x00000926   0x00000002   PAD
-    0x00000928   0x00000928   0x00000012   Code   RO           15    .text.Sound_Stop    sound.o
-    0x0000093a   0x0000093a   0x00000002   PAD
-    0x0000093c   0x0000093c   0x0000002a   Code   RO           19    .text.SysTick_Handler  sound.o
-    0x00000966   0x00000966   0x00000002   PAD
-    0x00000968   0x00000968   0x0000002c   Code   RO           29    .text.getDelay      sound.o
-    0x00000994   0x00000994   0x0000002a   Code   RO           31    .text.getToneIndex  sound.o
-    0x000009be   0x000009be   0x00000002   PAD
-    0x000009c0   0x000009c0   0x0000000c   Code   RO           62    .text.get_current_mode  buttonled.o
-    0x000009cc   0x000009cc   0x00000042   Code   RO           49    .text.main          project1p2.o
-    0x00000a0e   0x00000a0e   0x00000002   PAD
-    0x00000a10   0x00000a10   0x000000d4   Code   RO           27    .text.play_a_song   sound.o
-    0x00000ae4   0x00000ae4   0x00000040   Data   RO           33    .rodata.SineWave    sound.o
-    0x00000b24   0x00000b24   0x000017e8   Data   RO           41    .rodata.playlist    sound.o
-    0x0000230c   0x0000230c   0x00000070   Data   RO           34    .rodata.tonetab     sound.o
-    0x0000237c   0x0000237c   0x00000020   Data   RO          239    Region$$Table       anon$$obj.o
+    0x00000590   0x00000590   0x0000015a   Code   RO           23    .text.GPIOPortD_Handler  sound.o
+    0x000006ea   0x000006ea   0x00000002   PAD
+    0x000006ec   0x000006ec   0x00000116   Code   RO           21    .text.GPIOPortF_Handler  sound.o
+    0x00000802   0x00000802   0x00000002   PAD
+    0x00000804   0x00000804   0x000000e2   Code   RO           60    .text.PianoKeys_Init  buttonled.o
+    0x000008e6   0x000008e6   0x00000002   PAD
+    0x000008e8   0x000008e8   0x00000032   Code   RO           17    .text.Sound_Start   sound.o
+    0x0000091a   0x0000091a   0x00000002   PAD
+    0x0000091c   0x0000091c   0x00000012   Code   RO           15    .text.Sound_Stop    sound.o
+    0x0000092e   0x0000092e   0x00000002   PAD
+    0x00000930   0x00000930   0x0000002a   Code   RO           19    .text.SysTick_Handler  sound.o
+    0x0000095a   0x0000095a   0x00000002   PAD
+    0x0000095c   0x0000095c   0x0000002c   Code   RO           29    .text.getDelay      sound.o
+    0x00000988   0x00000988   0x0000002a   Code   RO           31    .text.getToneIndex  sound.o
+    0x000009b2   0x000009b2   0x00000002   PAD
+    0x000009b4   0x000009b4   0x0000000c   Code   RO           62    .text.get_current_mode  buttonled.o
+    0x000009c0   0x000009c0   0x00000042   Code   RO           49    .text.main          project1p2.o
+    0x00000a02   0x00000a02   0x00000002   PAD
+    0x00000a04   0x00000a04   0x000000e4   Code   RO           27    .text.play_a_song   sound.o
+    0x00000ae8   0x00000ae8   0x00000040   Data   RO           33    .rodata.SineWave    sound.o
+    0x00000b28   0x00000b28   0x000017e8   Data   RO           41    .rodata.playlist    sound.o
+    0x00002310   0x00002310   0x00000070   Data   RO           34    .rodata.tonetab     sound.o
+    0x00002380   0x00002380   0x00000020   Data   RO          239    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x0000239c, Size: 0x00000004, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000023a0, Size: 0x00000004, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x0000239c   0x00000001   Data   RW           40    .data.GPIOPortD_Handler.pressed  sound.o
+    0x20000000   0x000023a0   0x00000001   Data   RW           40    .data.GPIOPortD_Handler.pressed  sound.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000008, Load base: 0x000023a0, Size: 0x00000468, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000008, Load base: 0x000023a4, Size: 0x00000468, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -709,7 +710,7 @@ Memory Map of the image
     0x2000006a        -       0x00000001   Zero   RW           38    .bss.curr_note      sound.o
     0x2000006b        -       0x00000001   Zero   RW           35    .bss.curr_song      sound.o
     0x2000006c        -       0x00000001   Zero   RW           37    .bss.octave         sound.o
-    0x2000006d   0x000023a0   0x00000003   PAD
+    0x2000006d   0x000023a4   0x00000003   PAD
     0x20000070        -       0x00000000   Zero   RW            2    HEAP                startup.o
     0x20000070        -       0x00000400   Zero   RW            1    STACK               startup.o
 
@@ -723,13 +724,13 @@ Image component sizes
 
        496          0          0          0          1        862   buttonled.o
         66          0          0          0          0        435   project1p2.o
-      1236          0       6296          1          4       3213   sound.o
+      1238          0       6296          1          4       3218   sound.o
        692        632          0          0       1024       1028   startup.o
 
     ----------------------------------------------------------------------
-      2508        632       6328          4       1032       5538   Object Totals
+      2512        632       6328          4       1032       5543   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        18          0          0          3          3          0   (incl. Padding)
+        20          0          0          3          3          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -776,15 +777,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2788        648       6328          4       1128       5974   Grand Totals
-      2788        648       6328          4       1128       5974   ELF Image Totals
-      2788        648       6328          4          0          0   ROM Totals
+      2792        648       6328          4       1128       5979   Grand Totals
+      2792        648       6328          4       1128       5979   ELF Image Totals
+      2792        648       6328          4          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 9116 (   8.90kB)
+    Total RO  Size (Code + RO Data)                 9120 (   8.91kB)
     Total RW  Size (RW Data + ZI Data)              1132 (   1.11kB)
-    Total ROM Size (Code + RO Data + RW Data)       9120 (   8.91kB)
+    Total ROM Size (Code + RO Data + RW Data)       9124 (   8.91kB)
 
 ==============================================================================
 

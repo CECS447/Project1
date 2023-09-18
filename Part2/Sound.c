@@ -34,7 +34,7 @@ const uint32_t tonetab[] =
 // 1, 2, 3, 4, 5, 6, 7
 // lower C octave:130.813, 146.832,164.814,174.614,195.998, 220,246.942
 // calculate reload value for the whole period:Reload value = Fclk/Ft = 16MHz/Ft
-{122137,108844,96970,91429,81633,72727,64777,
+{122137,108844,96970,91429,81633,72727,64777,            // C3 Major Notes
  30534*2,27211*2,24242*2,22923*2,20408*2,18182*2,16194*2, // C4 Major notes
  15289*2,13621*2,12135*2,11454*2,10204*2,9091*2,8099*2,   // C5 Major notes
  7645*2,6810*2,6067*2,5727*2,5102*2,4545*2,4050*2};        // C6 Major notes
@@ -43,29 +43,29 @@ const uint32_t tonetab[] =
 // Index for notes used in the music scores
 typedef enum
 {
-  C4 = 0,
-  D4 = 1,
-  E4 = 2,
-  F4 = 3,
-  G4 = 4,
-  A4 = 5,
-  B4 = 6,
+  C3 = 0,
+  D3 = 1,
+  E3 = 2,
+  F3 = 3,
+  G3 = 4,
+  A3 = 5,
+  B3 = 6,
 
-  C5 = 0+7,
-  D5 = 1+7,
-  E5 = 2+7,
-  F5 = 3+7,
-  G5 = 4+7,
-  A5 = 5+7,
-  B5 = 6+7,
+  C4 = 0+7,
+  D4 = 1+7,
+  E4 = 2+7,
+  F4 = 3+7,
+  G4 = 4+7,
+  A4 = 5+7,
+  B4 = 6+7,
 
-  C6 = 0+2*7,
-  D6 = 1+2*7,
-  E6 = 2+2*7,
-  F6 = 3+2*7,
-  G6 = 4+2*7,
-  A6 = 5+2*7,
-  B6 = 6+2*7,
+  C5 = 0+2*7,
+  D5 = 1+2*7,
+  E5 = 2+2*7,
+  F5 = 3+2*7,
+  G5 = 4+2*7,
+  A5 = 5+2*7,
+  B5 = 6+2*7,
 
   PAUSE = 255,
 } NOTE_INDEX;
@@ -96,25 +96,27 @@ extern volatile uint8_t curr_mode;
 static NTyp playlist[MAX_SONGS][MAX_NOTES] = 
 {  
   { // Happy Birthday
-    G4,    2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
-    SILENCE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
-    SILENCE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
-    SILENCE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
+    G3,    2, G3, 2, A3, 4, G3, 4, C4, 4, B3, 4,
+    SILENCE, 4, G3, 2, G3, 2, A3, 4, G3, 4, D4, 4, C4, 4,
+    SILENCE, 4, G3, 2, G3, 2, G4, 4, E4, 4, C4, 4, B3, 4, A3, 8, 
+    SILENCE, 4, F4, 2, F4, 2, E4, 4, C4, 4, D4, 4, C4, 8,  0, 0
   },
 
+
   { // Mary Had a Little Lamb
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8,  0, 0 
+      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
+      C4, 4, C4, 4, C4, 8, D4, 4, F4, 4, F4, 8,
+      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
+      C4, 4, C4, 4, D4, 4, C4, 4, B3, 8,  0, 0 
   },
 
 
   { // Twinkle Twinkle Little Star
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
-    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 0, 0
+      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 
+      G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, 
+      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 0, 0
   },
+
 };
 
 
@@ -198,7 +200,7 @@ void GPIOPortD_Handler(void){
   NOTE_INDEX Note = 0;
 
   // If any of the 4 switches are pressed
-  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 && (curr_mode == PIANO) )
+  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 )
   {
     pressed = true;
   }
@@ -210,22 +212,22 @@ void GPIOPortD_Handler(void){
 
   if (GPIO_PORTD_RIS_R & KEY_C_MASK)
   {
-    Note = C4;
+    Note = C3;
     GPIO_PORTD_ICR_R |= KEY_C_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_D_MASK )
   {
-    Note = D4;
+    Note = D3;
     GPIO_PORTD_ICR_R |= KEY_D_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_E_MASK)
   {
-    Note = E4;
+    Note = E3;
     GPIO_PORTD_RIS_R |= KEY_E_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_F_MASK)
   {
-    Note = F5;
+    Note = F3;
     GPIO_PORTD_ICR_R |= KEY_F_MASK; // Ack interrupt 
   }
 
@@ -257,7 +259,6 @@ void DelayMS(uint16_t milliseconds)
   }
 }
 
-
 /*********************************************************
   Name: getDelay
 
@@ -285,7 +286,7 @@ void play_a_song()
 {
  uint8_t currentToneIndex = 0;
   uint8_t currentDelay = getDelay();
-	while (currentDelay && curr_mode == AUTO_PLAY )
+	while ( currentDelay && curr_mode == AUTO_PLAY )
   {
     currentToneIndex = getToneIndex();
 
@@ -297,20 +298,17 @@ void play_a_song()
     // Set current note based on Tone Table
 		else 
     {
-      Sound_Start(tonetab[currentToneIndex]/NUM_SAMPLES);
+      Sound_Start(tonetab[currentToneIndex + (octave * 7) ]/NUM_SAMPLES);
 		}
 		
 		// Play current note for specified duration; delay is in 100ms intervals.
-		DelayMS(currentDelay * 100);
+    DelayMS(currentDelay * 100);
 		
     // Increment note
 		Sound_Stop();
-
-    // Delay for break in notes
-    DelayMS(5);
-
-    currentDelay = getDelay();
+    DelayMS(25);
     curr_note++;
+    currentDelay = getDelay();
   }
   curr_note = 0;
   curr_song = (curr_song + 1) % 3;
