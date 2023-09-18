@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void Delay(void);
+void DelayMS(uint16_t milliseconds);
 
 extern void DisableInterrupts(void); // Disable interrupts
 extern void EnableInterrupts(void);  // Enable interrupts
@@ -21,7 +21,6 @@ extern void EnableInterrupts(void);  // Enable interrupts
 // define bit addresses for Port B bits 0,1,2,3,4,5 => DAC inputs 
 #define DAC (*((volatile unsigned long *)0x4000501C))
 unsigned char Index;  	
-unsigned char currentOctave;
 // 6-bit: value range 0 to 2^6-1=63, 64 samples
 const uint8_t SineWave[64] = {32,35,38,41,44,47,49,52,54,56,58,59,61,62,62,63,63,63,62,62,
 															61,59,58,56,54,52,49,47,44,41,38,35,32,29,26,23,20,17,15,12,
@@ -123,7 +122,7 @@ static NTyp playlist[MAX_SONGS][MAX_NOTES] =
 volatile uint8_t curr_song=0;      // 0: Happy Birthday, 1: Mary Had A Little Lamb. 2: Twinkle Twinkle Little Stars
 volatile uint8_t stop_play=1;      // 0: continue playing a song, 1: stop playing a song
 volatile uint8_t octave=0;         // 0: lower C, 1: middle C, 2: upper C
-
+volatile uint8_t curr_note=0;
 																		// **************DAC_Init*********************
 // Initialize 6-bit DAC  on Port B
 // Input: none
@@ -171,12 +170,12 @@ void GPIOPortF_Handler(void){
 
   if ( GPIO_PORTF_RIS_R & SWITCH1_MASK )
   {
-    curr_mode = !curr_mode;
+    curr_mode = (curr_mode == PIANO) ? AUTO_PLAY : PIANO;
     GPIO_PORTF_ICR_R |= SWITCH1_MASK; // Ack interrupt 
   }
   else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK & (curr_mode == PIANO) )
   {
-    currentOctave = (currentOctave + 1) % 3;
+    octave = (octave + 1) % 3;
     GPIO_PORTF_ICR_R |= SWITCH2_MASK; // Ack interrupt 
   }
 }
@@ -193,7 +192,7 @@ void GPIOPortD_Handler(void){
   NOTE_INDEX Note = 0;
 
   // If any of the 4 switches are pressed
-  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 )
+  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 && curr_mode == PIANO )
   {
     pressed = true;
   }
@@ -223,7 +222,7 @@ void GPIOPortD_Handler(void){
     GPIO_PORTD_ICR_R |= KEY_F_MASK; // Ack interrupt 
   }
 
-  Note = Note + ( currentOctave * 7);
+  Note = Note + ( octave * 7);
 
   if ( pressed )
   {
@@ -241,16 +240,72 @@ void GPIOPortD_Handler(void){
 // Inputs: None
 // Outputs: None
 // Notes: ...
-void Delay(void){
-	uint32_t volatile time;
-  time = 727240*20/91;  // 0.1sec
-  while(time){
-		time--;
+void DelayMS(uint16_t milliseconds)
+{
+	unsigned long volatile ms_decrement;
+  ms_decrement = 1600 * milliseconds;
+  while(ms_decrement)
+  {
+    ms_decrement--;
   }
+}
+
+
+/*********************************************************
+  Name: getDelay
+
+  Description:
+    Returns the delay of the current note in the Score Tab.
+ *********************************************************/
+static inline uint8_t getDelay(void)
+{
+  return playlist[curr_song][curr_note].delay;
+}
+
+/***************************************************************
+  Name: getToneIndex
+
+  Description:
+    Returns the tone index of the current note in the score tab.
+ ***************************************************************/
+
+static inline uint8_t getToneIndex(void)
+{
+  return playlist[curr_song][curr_note].tone_index;
 }
 
 void play_a_song()
 {
+ uint8_t currentToneIndex = 0;
+  uint8_t currentDelay = getToneIndex();
+	while (currentDelay )
+  {
+    currentToneIndex = getToneIndex();
+
+    // Silence by disabling SysTick
+    if ( currentToneIndex == SILENCE)
+    {
+			Sound_Stop();
+    }
+    // Set current note based on Tone Table
+		else 
+    {
+      Sound_Start(tonetab[currentToneIndex]);
+		}
+		
+		// Play current note for specified duration; delay is in 100ms intervals.
+		DelayMS(currentDelay * 100);
+		
+    // Increment note
+		Sound_Stop();
+
+    // Delay for break in notes
+    DelayMS(5);
+
+    currentDelay = getDelay();
+    curr_note++;
+  }
+
 }
 
 
