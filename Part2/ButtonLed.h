@@ -17,7 +17,7 @@
 // initialize switch interface
 // Input: none
 // Output: none 
-void Button_Init(void);
+void ButtonLed_Init(void);
 
 //---------------------PianoKeys_Init---------------------
 // initialize onboard Piano keys interface: PORT D 0 - 3 are used to generate 

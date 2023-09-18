@@ -1,4 +1,4 @@
-t // Sound.c
+// Sound.c
 // This is the starter file for CECS 447 Project 1 Part 2
 // By Dr. Min He
 // September 10, 2022
@@ -10,6 +10,12 @@ t // Sound.c
 #include "tm4c123gh6pm.h"
 #include "Sound.h"
 #include <stdint.h>
+#include <stdbool.h>
+
+void Delay(void);
+
+extern void DisableInterrupts(void); // Disable interrupts
+extern void EnableInterrupts(void);  // Enable interrupts
 
 // define bit addresses for Port B bits 0,1,2,3,4,5 => DAC inputs 
 #define DAC (*((volatile unsigned long *)0x4000501C))
@@ -71,9 +77,12 @@ typedef enum
   KEY_E_MASK = 0x03, 
   KEY_F_MASK = 0x04,
 
-} KEY_MASKS;
+  SWITCH1_MASK  = 0x10,
+  SWITCH2_MASK  = 0x01, 
 
+} MASKS;
 
+extern volatile uint8_t curr_mode;
 #define MAX_NOTES 255 // maximum number of notes for a song to be played in the program
 #define MAX_SONGS 3   // number of songs in the play list.
 #define SILENCE MAX_NOTES // use the last valid index to indicate a silence note. The song can only have up to 254 notes. 
@@ -125,6 +134,10 @@ void DAC_Init(void){
   GPIO_PORTB_AFSEL_R &= ~0x3F;   // disable alt funct on PB0-5
   GPIO_PORTB_DEN_R |= 0x3F;      // enable digital I/O on PB0-5
   GPIO_PORTB_DR8R_R |= 0x3F;        // enable 8 mA drive on PB0-5	
+
+  NVIC_ST_CTRL_R = 0;         // disable SysTick during setup
+  NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x20000000; // priority 1      
+  NVIC_ST_CTRL_R |= NVIC_ST_CTRL_CLK_SRC|NVIC_ST_CTRL_INTEN;  // enable SysTick with core clock and interrupts
 }
 
 // **************Sound_Start*********************
@@ -136,7 +149,7 @@ void Sound_Stop(void)
 	NVIC_ST_CTRL_R &= ~NVIC_ST_CTRL_ENABLE;
 }
 
-void Sound_Start(unsigned long period)
+void Sound_Start(uint32_t period)
 {
   NVIC_ST_RELOAD_R = period-1;// reload value
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
@@ -152,7 +165,18 @@ void SysTick_Handler(void){
 
 void GPIOPortF_Handler(void){
 	// simple debouncing code: generate 20ms to 30ms delay
-	for (uint32_t time=0;time<72724;time++) {}
+	// for (uint32_t time=0;time<72724;time++) {}
+
+  // if ( GPIO_PORTF_RIS_R & SWITCH1_MASK )
+  // {
+  //   curr_mode = !curr_mode;
+  //   GPIO_PORTF_RIS_R |= SWITCH1_MASK; // Ack interrupt 
+  // }
+  // else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK)
+  // {
+  //   GPIO_PORTF_RIS_R |= SWITCH2_MASK; // Ack interrupt 
+   // }
+  // } 
 }
 
 // Dependency: Requires PianoKeys_Init to be called first, assume at any time only one key is pressed
@@ -163,23 +187,49 @@ void GPIOPortF_Handler(void){
 void GPIOPortD_Handler(void){  
   // simple debouncing code: generate 20ms to 30ms delay
 	for (uint32_t time=0;time<72724;time++) {}
+  static bool pressed = true;
+  NOTE_INDEX Note = 0;
+
+  // If any of the 4 switches are pressed
+  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 )
+  {
+    pressed = true;
+  }
+  else
+  {
+    pressed = false;
+  }
 
   if (GPIO_PORTD_RIS_R & KEY_C_MASK)
   {
-    GPIO_PORTD_RIS_R |= KEY_C_MASK; // Ack interrupt 
+    Note = C4;
+    GPIO_PORTD_ICR_R |= KEY_C_MASK; // Ack interrupt 
   }
-  else if (GPIO_PORTD_RIS_R & KEY_D_MASK)
+  else if (GPIO_PORTD_RIS_R & KEY_D_MASK )
   {
-    GPIO_PORTD_RIS_R |= KEY_D_MASK; // Ack interrupt 
+    Note = D4;
+    GPIO_PORTD_ICR_R |= KEY_D_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_E_MASK)
   {
+    Note = E4;
     GPIO_PORTD_RIS_R |= KEY_E_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_F_MASK)
   {
-    GPIO_PORTD_RIS_R |= KEY_F_MASK; // Ack interrupt 
+    Note = F5;
+    GPIO_PORTD_ICR_R |= KEY_F_MASK; // Ack interrupt 
   }
+
+  if ( pressed )
+  {
+    Sound_Start(tonetab[Note]/NUM_SAMPLES);
+  }
+  else
+  {
+    Sound_Stop();
+  }
+
 }
 
 

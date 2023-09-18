@@ -17,16 +17,21 @@
 extern void DisableInterrupts(void);
 extern void EnableInterrupts(void);
 extern void WaitForInterrupt(void);
+extern void Delay(void);
+
+extern const uint32_t tonetab[];
 
   
 // 3. Subroutines Section
 // MAIN: Mandatory for a C Program to be executable
 int main(void){
-  DisableInterrupts();    
-  DAC_Init();        // Port B 
+	DisableInterrupts();    
+	DAC_Init();        // Port B 
 	ButtonLed_Init();  // Port F
-  PianoKeys_Init();  // Port D
+    PianoKeys_Init();  // Port D
 	EnableInterrupts();
+
+
 	
   while(1){
 		switch (get_current_mode()) {
