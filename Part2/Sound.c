@@ -8,7 +8,7 @@
 // SysTick ISR: PF3 is used to implement heartbeat
 
 #include "tm4c123gh6pm.h"
-#include "sound.h"
+#include "Sound.h"
 #include <stdint.h>
 
 // define bit addresses for Port B bits 0,1,2,3,4,5 => DAC inputs 
@@ -83,10 +83,17 @@ volatile uint8_t stop_play=1;      // 0: continue playing a song, 1: stop playin
 volatile uint8_t octave=0;         // 0: lower C, 1: middle C, 2: upper C
 
 																		// **************DAC_Init*********************
-// Initialize 6-bit DAC 
+// Initialize 6-bit DAC  on Port B
 // Input: none
 // Output: none
 void DAC_Init(void){
+  SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOB; // activate port B
+  GPIO_PORTB_AMSEL_R &= ~0x3F;      // no analog 
+  GPIO_PORTB_PCTL_R &= ~0x00FFFFFF; // regular function
+  GPIO_PORTB_DIR_R |= 0x3F;      // make PB0-5 out
+  GPIO_PORTB_AFSEL_R &= ~0x3F;   // disable alt funct on PB0-5
+  GPIO_PORTB_DEN_R |= 0x3F;      // enable digital I/O on PB0-5
+  GPIO_PORTB_DR8R_R |= 0x3F;        // enable 8 mA drive on PB0-5	
 }
 
 // **************Sound_Start*********************
