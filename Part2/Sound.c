@@ -33,19 +33,39 @@ const uint32_t tonetab[] =
  7645*2,6810*2,6067*2,5727*2,5102*2,4545*2,4050*2};        // C6 Major notes
 
 // Constants
-// index definition for tones used in happy birthday.
-#define G4 4
-#define A4 5
-#define B4 6
-#define C5 0+7
-#define D5 1+7
-#define E5 2+7
-#define F5 3+7
-#define G5 4+7
-#define A5 5+7		
+// Index for notes used in the music scores
+typedef enum
+{
+  C4 = 0,
+  D4 = 1,
+  E4 = 2,
+  F4 = 3,
+  G4 = 4,
+  A4 = 5,
+  B4 = 6,
+
+  C5 = 0+7,
+  D5 = 1+7,
+  E5 = 2+7,
+  F5 = 3+7,
+  G5 = 4+7,
+  A5 = 5+7,
+  B5 = 6+7,
+
+  C6 = 0+2*7,
+  D6 = 1+2*7,
+  E6 = 2+2*7,
+  F6 = 3+2*7,
+  G6 = 4+2*7,
+  A6 = 5+2*7,
+  B6 = 6+2*7,
+
+  PAUSE = 255,
+} NOTE_INDEX;
+
 
 #define MAX_NOTES 255 // maximum number of notes for a song to be played in the program
-#define NUM_SONGS 3   // number of songs in the play list.
+#define MAX_SONGS 3   // number of songs in the play list.
 #define SILENCE MAX_NOTES // use the last valid index to indicate a silence note. The song can only have up to 254 notes. 
 #define NUM_OCT  3   // number of octave defined in tontab[]
 #define NUM_NOTES_PER_OCT 7  // number of notes defined for each octave in tonetab
@@ -53,27 +73,28 @@ const uint32_t tonetab[] =
 #define NVIC_EN0_PORTD 0x00000008  // enable PORTD edge interrupt
 #define NUM_SAMPLES 64  // number of sample in one sin wave period
 
-// note table for Happy Birthday
-// doe ray mi fa so la ti 
-// C   D   E  F  G  A  B
-NTyp playlist[][MAX_NOTES] = 
-{{
-  // Happy Birthday
-// so   so   la   so   doe' ti
-   G4,2,G4,2,A4,4,G4,4,C5,4,B4,4,
-// pause so   so   la   so   ray' doe'
-   SILENCE,4,  G4,2,G4,2,A4,4,G4,4,D5,4,C5,4,
-// pause so   so   so'  mi'  doe' ti   la
-   SILENCE, 4, G4,2,G4,2,G5,4,E5,4,C5,4,B4,4,A4,8, 
-// pause fa'  fa'   mi'  doe' ray' doe'  stop
-	 SILENCE,4,  F5,2,F5,2, E5,4,C5,4,D5,4,C5,8, SILENCE,0
-},
+static NTyp playlist[MAX_SONGS][MAX_NOTES] = 
+{  
+  { // Happy Birthday
+    G4,    2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
+    SILENCE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
+    SILENCE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
+    SILENCE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
+  },
 
-// Mary Had A Little Lamb
-{SILENCE,0},
+  { // Mary Had a Little Lamb
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8,  0, 0 
+  },
 
-// Twinkle Twinkle Little Stars
-{SILENCE,0}
+
+  { // Twinkle Twinkle Little Star
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
+    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 0, 0
+  },
 };
 
 
