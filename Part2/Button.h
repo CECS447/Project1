@@ -1,4 +1,4 @@
-// ButtonLed.h: starter file for CECS447 Project 1 Part 1
+// Button.h: starter file for CECS447 Project 1 Part 1
 // Runs on TM4C123, 
 // Dr. Min He
 // September 10, 2022
@@ -17,7 +17,7 @@
 // initialize switch interface
 // Input: none
 // Output: none 
-void ButtonLed_Init(void);
+void Button_Init(void);
 
 //---------------------PianoKeys_Init---------------------
 // initialize onboard Piano keys interface: PORT D 0 - 3 are used to generate 
