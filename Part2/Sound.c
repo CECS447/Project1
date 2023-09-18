@@ -178,6 +178,12 @@ void GPIOPortF_Handler(void){
     octave = (octave + 1) % 3;
     GPIO_PORTF_ICR_R |= SWITCH2_MASK; // Ack interrupt 
   }
+  else if ( GPIO_PORTF_RIS_R & SWITCH2_MASK & (curr_mode == AUTO_PLAY) )
+  {
+    curr_song = (curr_song + 1) % 3;
+    curr_note = 0;
+    GPIO_PORTF_ICR_R |= SWITCH2_MASK; // Ack interrupt 
+  }
 }
 
 // Dependency: Requires PianoKeys_Init to be called first, assume at any time only one key is pressed
@@ -277,8 +283,8 @@ static inline uint8_t getToneIndex(void)
 void play_a_song()
 {
  uint8_t currentToneIndex = 0;
-  uint8_t currentDelay = getToneIndex();
-	while (currentDelay )
+  uint8_t currentDelay = getDelay();
+	while (currentDelay && curr_mode == AUTO_PLAY )
   {
     currentToneIndex = getToneIndex();
 
@@ -290,7 +296,7 @@ void play_a_song()
     // Set current note based on Tone Table
 		else 
     {
-      Sound_Start(tonetab[currentToneIndex]);
+      Sound_Start(tonetab[currentToneIndex]/NUM_SAMPLES);
 		}
 		
 		// Play current note for specified duration; delay is in 100ms intervals.
@@ -305,7 +311,9 @@ void play_a_song()
     currentDelay = getDelay();
     curr_note++;
   }
-
+  curr_note = 0;
+  curr_song = (curr_song + 1) % 3;
+  DelayMS(100); //Delay between subsequent songs
 }
 
 
