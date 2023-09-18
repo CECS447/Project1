@@ -12,8 +12,8 @@
 #include <stdint.h>
 
 // define bit addresses for Port B bits 0,1,2,3,4,5 => DAC inputs 
-// #define DAC (*((volatile unsigned long *)            ))   
-	
+#define DAC (*((volatile unsigned long *)0x4000501C))
+unsigned char Index;  	
 // 6-bit: value range 0 to 2^6-1=63, 64 samples
 const uint8_t SineWave[64] = {32,35,38,41,44,47,49,52,54,56,58,59,61,62,62,63,63,63,62,62,
 															61,59,58,56,54,52,49,47,44,41,38,35,32,29,26,23,20,17,15,12,
@@ -115,6 +115,8 @@ void Sound_Start(unsigned long period)
 // Interrupt service routine
 // Executed based on number of sampels in each period
 void SysTick_Handler(void){
+	Index = (Index+1)%64;
+	DAC = SineWave[Index]; // output to DAC: 6-bit data
 }
 
 void GPIOPortF_Handler(void){
@@ -126,7 +128,7 @@ void GPIOPortF_Handler(void){
 // Inputs: None
 // Outputs: None
 // Description: Rising/Falling edge interrupt on PD6-PD0. Whenever any 
-// button is pressed, or released the interrupt will trigger.
+// button is pressed, or released the interrupGt will trigger.
 void GPIOPortD_Handler(void){  
   // simple debouncing code: generate 20ms to 30ms delay
 	for (uint32_t time=0;time<72724;time++) {}
