@@ -100,11 +100,16 @@ void DAC_Init(void){
 // Set reload value and enable systick timer
 // Input: time duration to be generated in number of machine cycles
 // Output: none
-void Sound_Start(uint32_t period){
+void Sound_Stop(void)
+{
+	NVIC_ST_CTRL_R &= ~NVIC_ST_CTRL_ENABLE;
 }
 
-void Sound_stop(void)
+void Sound_Start(unsigned long period)
 {
+  NVIC_ST_RELOAD_R = period-1;// reload value
+  NVIC_ST_CURRENT_R = 0;      // any write to current clears it
+	NVIC_ST_CTRL_R |= NVIC_ST_CTRL_ENABLE;
 }
 
 // Interrupt service routine
