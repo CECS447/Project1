@@ -30,11 +30,11 @@ int main(void){
 	ButtonLed_Init();  // Port F
     PianoKeys_Init();  // Port D
 	EnableInterrupts();
-
-
 	
-  while(1){
-		switch (get_current_mode()) {
+  while(1)
+  	{
+		switch (get_current_mode()) 
+		{
 			case PIANO:
 				WaitForInterrupt();
 				break;
@@ -44,7 +44,7 @@ int main(void){
 			default:
 				break;
 		}
-  }
+  	}
 }
 
 

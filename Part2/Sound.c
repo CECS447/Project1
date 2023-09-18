@@ -293,21 +293,21 @@ static inline uint8_t getToneIndex(void)
 
 void play_a_song()
 {
- uint8_t currentToneIndex = 0;
+  uint8_t currentToneIndex = 0;
   uint8_t currentDelay = getDelay();
 	while ( currentDelay && curr_mode == AUTO_PLAY )
   {
     currentToneIndex = getToneIndex();
 
     // Silence by disabling SysTick
-    if ( currentToneIndex == SILENCE)
+    if (currentToneIndex == SILENCE)
     {
 			Sound_Stop();
     }
     // Set current note based on Tone Table
 		else 
     {
-      Sound_Start(tonetab[currentToneIndex + (octave * 7) ]/NUM_SAMPLES);
+      Sound_Start(tonetab[currentToneIndex + (octave * 7)]/NUM_SAMPLES);
 		}
 		
 		// Play current note for specified duration; delay is in 100ms intervals.
