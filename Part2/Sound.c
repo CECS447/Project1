@@ -1,4 +1,4 @@
-// Sound.c
+t // Sound.c
 // This is the starter file for CECS 447 Project 1 Part 2
 // By Dr. Min He
 // September 10, 2022
@@ -62,6 +62,16 @@ typedef enum
 
   PAUSE = 255,
 } NOTE_INDEX;
+
+// Keys masks
+typedef enum
+{
+  KEY_C_MASK = 0x01, 
+  KEY_D_MASK = 0x02, 
+  KEY_E_MASK = 0x03, 
+  KEY_F_MASK = 0x04,
+
+} KEY_MASKS;
 
 
 #define MAX_NOTES 255 // maximum number of notes for a song to be played in the program
@@ -153,8 +163,25 @@ void GPIOPortF_Handler(void){
 void GPIOPortD_Handler(void){  
   // simple debouncing code: generate 20ms to 30ms delay
 	for (uint32_t time=0;time<72724;time++) {}
-    
+
+  if (GPIO_PORTD_RIS_R & KEY_C_MASK)
+  {
+    GPIO_PORTD_RIS_R |= KEY_C_MASK; // Ack interrupt 
+  }
+  else if (GPIO_PORTD_RIS_R & KEY_D_MASK)
+  {
+    GPIO_PORTD_RIS_R |= KEY_D_MASK; // Ack interrupt 
+  }
+  else if (GPIO_PORTD_RIS_R & KEY_E_MASK)
+  {
+    GPIO_PORTD_RIS_R |= KEY_E_MASK; // Ack interrupt 
+  }
+  else if (GPIO_PORTD_RIS_R & KEY_F_MASK)
+  {
+    GPIO_PORTD_RIS_R |= KEY_F_MASK; // Ack interrupt 
+  }
 }
+
 
 // Subroutine to wait 0.1 sec
 // Inputs: None
