@@ -192,40 +192,7 @@
           <Name>-T0</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>42</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>2548</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Project1P2.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project1P2\Project1P2.c\42</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>314</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>2716</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\\wsl.localhost\Ubuntu-22.04\home\technopath\Development\CECS447\Project1\Part2\Sound.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project1P2\Sound.c\314</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>

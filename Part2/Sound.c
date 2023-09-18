@@ -198,12 +198,13 @@ void GPIOPortD_Handler(void){
   NOTE_INDEX Note = 0;
 
   // If any of the 4 switches are pressed
-  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 && curr_mode == PIANO )
+  if ( (GPIO_PORTD_DATA_R & 0x0F) != 0 && (curr_mode == PIANO) )
   {
     pressed = true;
   }
   else
   {
+    GPIO_PORTD_ICR_R |= 0x0F; // Clear interrupts so all checks below fail if not in piano mode
     pressed = false;
   }
 
