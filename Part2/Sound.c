@@ -95,27 +95,28 @@ extern volatile uint8_t curr_mode;
 
 static NTyp playlist[MAX_SONGS][MAX_NOTES] = 
 {  
-  { // Happy Birthday
-    G3,    2, G3, 2, A3, 4, G3, 4, C4, 4, B3, 4,
-    SILENCE, 4, G3, 2, G3, 2, A3, 4, G3, 4, D4, 4, C4, 4,
-    SILENCE, 4, G3, 2, G3, 2, G4, 4, E4, 4, C4, 4, B3, 4, A3, 8, 
-    SILENCE, 4, F4, 2, F4, 2, E4, 4, C4, 4, D4, 4, C4, 8,  0, 0
+  // Mary Had a little Lamb
+  {
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8, 0, 0
   },
 
-
-  { // Mary Had a Little Lamb
-      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
-      C4, 4, C4, 4, C4, 8, D4, 4, F4, 4, F4, 8,
-      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
-      C4, 4, C4, 4, D4, 4, C4, 4, B3, 8,  0, 0 
+  // score table for Twinkle Twinkle Little Stars
+  {
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
+    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8,0,0
+  },
+  
+  // Happy Birthday
+  {    G4, 2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
+    PAUSE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
+    PAUSE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
+    PAUSE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
   },
 
-
-  { // Twinkle Twinkle Little Star
-      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 
-      G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, 
-      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 0, 0
-  },
 
 };
 

@@ -61,7 +61,7 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
-    for (uint32_t time=0;time<72724;time++) {} 
+    for (uint32_t time=0;time<100000;time++) {} 
     // Switch 1 Pressed, controls if music is on or off
     if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
