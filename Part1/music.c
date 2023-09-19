@@ -17,9 +17,9 @@
 // Available songs
 typedef enum
 {
-  HAPPY_BIRTHDAY = 0,
-  LITTLE_LAMB,
+  LITTLE_LAMB = 0,
   TWINKLE_LITTLE_STAR,
+  HAPPY_BIRTHDAY,
 } SONG_INDEX;
 
 uint8_t octave = 0;
@@ -27,29 +27,29 @@ uint8_t octave = 0;
 // Index for notes used in the music scores
 typedef enum
 {
-  C3 = 0,
-  D3 = 1,
-  E3 = 2,
-  F3 = 3,
-  G3 = 4,
-  A3 = 5,
-  B3 = 6,
+  C4 = 0,
+  D4 = 1,
+  E4 = 2,
+  F4 = 3,
+  G4 = 4,
+  A4 = 5,
+  B4 = 6,
 
-  C4 = 0+7,
-  D4 = 1+7,
-  E4 = 2+7,
-  F4 = 3+7,
-  G4 = 4+7,
-  A4 = 5+7,
-  B4 = 6+7,
+  C5 = 0+7,
+  D5 = 1+7,
+  E5 = 2+7,
+  F5 = 3+7,
+  G5 = 4+7,
+  A5 = 5+7,
+  B5 = 6+7,
 
-  C5 = 0+2*7,
-  D5 = 1+2*7,
-  E5 = 2+2*7,
-  F5 = 3+2*7,
-  G5 = 4+2*7,
-  A5 = 5+2*7,
-  B5 = 6+2*7,
+  C6 = 0+2*7,
+  D6 = 1+2*7,
+  E6 = 2+2*7,
+  F6 = 3+2*7,
+  G6 = 4+2*7,
+  A6 = 5+2*7,
+  B6 = 6+2*7,
 
   PAUSE = 255,
 } NOTE_INDEX;
@@ -66,26 +66,26 @@ typedef enum
 
 static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = 
 {  
-  { // Happy Birthday
-    G3,    2, G3, 2, A3, 4, G3, 4, C4, 4, B3, 4,
-    PAUSE, 4, G3, 2, G3, 2, A3, 4, G3, 4, D4, 4, C4, 4,
-    PAUSE, 4, G3, 2, G3, 2, G4, 4, E4, 4, C4, 4, B3, 4, A3, 8, 
-    PAUSE, 4, F4, 2, F4, 2, E4, 4, C4, 4, D4, 4, C4, 8,  0, 0
+  // Mary Had a little Lamb
+  {
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
+    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
+    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8, 0, 0
   },
 
-
-  { // Mary Had a Little Lamb
-      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
-      C4, 4, C4, 4, C4, 8, D4, 4, F4, 4, F4, 8,
-      D4, 4, C4, 4, B3, 4, C4, 4, D4, 4, D4, 4, D4, 8, 
-      C4, 4, C4, 4, D4, 4, C4, 4, B3, 8,  0, 0 
+  // score table for Twinkle Twinkle Little Stars
+  {
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
+    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
+    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8,0,0
   },
-
-
-  { // Twinkle Twinkle Little Star
-      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 
-      G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, G3, 4, G3, 4, F3, 4, F3, 4, E3, 4, E3, 4, D3, 8, 
-      C3, 4, C3, 4, G3, 4, G3, 4, A3, 4, A3, 4, G3, 8, F3, 4, F3, 4, E3, 4, E3, 4, D3, 4, D3, 4, C3, 8, 0, 0
+  
+  // Happy Birthday
+  {    G4, 2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
+    PAUSE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
+    PAUSE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
+    PAUSE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
   },
 };
 
@@ -94,9 +94,9 @@ static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] =
 // Offset: 0, 1, 2, 3, 4, 5, 6
 static const unsigned long Tone_Tab[] =
 { 
- 30534, 27211, 24242, 22923, 20408, 18182, 16194, // C4 major notes
- 15289, 13621, 12135, 11454, 10204,  9091,  8099, // C5 major notes
-  7645,  6810,  6067,  5727,  5102,  4545,  4050  // C6 major notes
+ 30534,27211,24242,22923,20408,18182,16194, // C4 Major notes
+ 15289,13621,12135,11454,10204,9091,8099,   // C5 Major notes
+ 7645,6810,6067,5727,5102,4545,4050 // C6 Major notes
 };
 
 
@@ -185,7 +185,7 @@ void play_a_song(void)
     // Set current note based on Tone Table
 		else 
     {
-      SysTick_Set_Current_Note(Tone_Tab[currentToneIndex]);
+      SysTick_Set_Current_Note(Tone_Tab[currentToneIndex + (octave * 7)]);
 			SysTick_start();
 		}
 		
@@ -232,14 +232,7 @@ void Music_Init(void)
  ******************************************************************************************/
 void next_song(void)
 {
-  if ( currentSong == TWINKLE_LITTLE_STAR )
-  {
-    currentSong = HAPPY_BIRTHDAY;
-  }
-  else
-  {
-    currentSong++;
-  }
+  currentSong = (currentSong + 1) % 3;
   currentNote = 0;
 }
 

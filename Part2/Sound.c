@@ -253,6 +253,14 @@ void GPIOPortD_Handler(void){
 
 }
 
+void GPIOPortE_Handler(void)
+{
+	for (uint32_t time=0;time<72724;time++) {}
+  static bool pressed = true;
+  NOTE_INDEX Note = 0;
+
+}
+
 
 // Subroutine to wait 0.1 sec
 // Inputs: None

@@ -16,6 +16,7 @@
 #define SW2 0x01  // bit position for onboard switch 2(right switch)
 #define NVIC_EN0_PORTF 0x40000000  // enable PORTF edge interrupt
 #define NVIC_EN0_PORTD 0x00000008  // enable PORTD edge interrupt
+#define NVIC_EN0_PORTE 0x00000010  // enable PORTE edge interrupt
 #define PORTF0_UNLOCK 0x4C4F434B
 
 // Golbals
@@ -65,6 +66,21 @@ void PianoKeys_Init(void){
     GPIO_PORTD_IM_R    |= 0x0F;        // (f) arm interrupt on PD0 - PD3
     NVIC_PRI0_R = (NVIC_PRI0_R & 0x1FFFFFFF) | 0xA0000000; // (g) priority 5
     NVIC_EN0_R |= NVIC_EN0_PORTD;          // (h) enable interrupt 3 in NVIC
+
+	SYSCTL_RCGC2_R     |= 0x00000010;  // (a) activate clock for port D
+    GPIO_PORTD_DIR_R   &= ~0x03;       // (c) make PD0 - PD3 inputs
+    GPIO_PORTD_AFSEL_R &= ~0x03;       //     disable alt funct on PD0 - PD3
+    GPIO_PORTD_DEN_R   |=  0x03;       //     enable digital I/O on PD0 - PD3 
+    GPIO_PORTD_PCTL_R  &= ~0x000000FF; // configure PF4 and PF0 as GPIO
+    GPIO_PORTD_AMSEL_R  = 0;           //     disable analog functionality on PD
+    GPIO_PORTD_PDR_R   |= 0x03;        //     enable weak pull-up on PD0 - PD3
+    GPIO_PORTD_IS_R    &= ~0x03;       // (d) PD0 - PD3 are edge-sensitive
+    GPIO_PORTD_IBE_R   |= 0x03;       //     PD0 - PD3 are both edges
+    GPIO_PORTD_IEV_R   &= ~0x03;       //     PD0 - PD3 falling edge event
+    GPIO_PORTD_ICR_R   |= 0x03;        // (e) clear flag 0 - 3
+    GPIO_PORTD_IM_R    |= 0x03;        // (f) arm interrupt on PD0 - PD3
+    NVIC_PRI0_R = (NVIC_PRI0_R & 0x1FFFFFFF) | 0xA0000000; // (g) priority 5
+    NVIC_EN0_R |= NVIC_EN0_PORTE;          // (h) enable interrupt 4 in NVIC
 }
 
 

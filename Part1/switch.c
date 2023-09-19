@@ -41,20 +41,29 @@ void Switch_Init(void)
     GPIO_PORTF_IM_R    |= 0x11;        // (f) arm interrupt on PF4 and PF0
     NVIC_PRI7_R = (NVIC_PRI7_R&0xFF1FFFFF)|0x00A00000; // (g) priority 5
     NVIC_EN0_R |= 0x40000000;          // (h) enable interrupt 30 in NVIC
+
+	SYSCTL_RCGC2_R     |= 0x00000008;  // (a) activate clock for port D
+    GPIO_PORTD_DIR_R   &= ~0x01;       // (c) make PD0 - PD3 inputs
+    GPIO_PORTD_AFSEL_R &= ~0x01;       //     disable alt funct on PD0 - PD3
+    GPIO_PORTD_DEN_R   |=  0x01;       //     enable digital I/O on PD0 - PD3 
+    GPIO_PORTD_PCTL_R  &= ~0x00000001; // configure PF4 and PF0 as GPIO
+    GPIO_PORTD_AMSEL_R  = 0;           //     disable analog functionality on PD
+    GPIO_PORTD_PDR_R   |= 0x01;        //     enable weak pull-down on PD0 - PD3
+    GPIO_PORTD_IS_R    &= ~0x01;       // (d) PD0 - PD3 are edge-sensitive
+    GPIO_PORTD_IBE_R   |= 0x01;       //     PD0 - PD3 are both edges
+    GPIO_PORTD_IEV_R   &= ~0x01;       //     PD0 - PD3 falling edge event
+    GPIO_PORTD_ICR_R   |= 0x01;        // (e) clear flag 0 - 3
+    GPIO_PORTD_IM_R    |= 0x01;        // (f) arm interrupt on PD0 - PD3
+    NVIC_PRI0_R = (NVIC_PRI0_R & 0x1FFFFFFF) | 0xA0000000; // (g) priority 5
+    NVIC_EN0_R |= 0x00000008;          // (h) enable interrupt 3 in NVIC
 }
 
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
-    if ( GPIO_PORTF_RIS_R & ( SWITCH1_MASK & SWITCH2_MASK ) )
-    {
-        octave = (octave + 1) % 3;
-       GPIO_PORTD_PDR_R |= (SWITCH1_MASK || SWITCH2_MASK); //ack interrupt 
-    }
-
-
+    for (uint32_t time=0;time<72724;time++) {} 
     // Switch 1 Pressed, controls if music is on or off
-    else if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
+    if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
         if ( !musicOn )
         {
@@ -74,3 +83,9 @@ void GPIOPortF_Handler(void)
     }
 }
 
+void GPIOPortD_Handler(void)
+{      
+    for (uint32_t time=0;time<72724;time++) {} 
+    octave = (octave + 1) % 3;
+    GPIO_PORTD_ICR_R |= 0x01;
+}
