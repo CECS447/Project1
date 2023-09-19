@@ -111,13 +111,11 @@ static NTyp playlist[MAX_SONGS][MAX_NOTES] =
   },
   
   // Happy Birthday
-  {    G4, 2, G4, 2, A4, 4, G4, 4, C5, 4, B4, 4,
-    PAUSE, 4, G4, 2, G4, 2, A4, 4, G4, 4, D5, 4, C5, 4,
-    PAUSE, 4, G4, 2, G4, 2, G5, 4, E5, 4, C5, 4, B4, 4, A4, 8, 
-    PAUSE, 4, F5, 2, F5, 2, E5, 4, C5, 4, D5, 4, C5, 8,  0, 0
+  {    C4, 2, C4, 2, D4, 4, C4, 4, F4, 4, E4, 4,
+    PAUSE, 4, C4, 2, C4, 2, D4, 4, C4, 4, G4, 4, F4, 4,
+    PAUSE, 4, C4, 2, C4, 2, C4, 4, A4, 4, F4, 4, E4, 4, D4, 8, 
+    PAUSE, 4, B4, 2, B4, 2, A4, 4, F4, 4, G4, 4, F4, 8,  0, 0
   },
-
-
 };
 
 
