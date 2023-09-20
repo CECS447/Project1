@@ -235,7 +235,6 @@ void Music_Init(void)
 void next_song(void)
 {
   currentSong = (currentSong + 1) % 3;
-  currentNote = 0;
 }
 
 /******************************************************************************************
