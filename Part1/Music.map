@@ -338,13 +338,13 @@ Image Symbol Table
     [Anonymous Symbol]                       0x00000844   Section        0  music.o(.text.is_music_on)
     [Anonymous Symbol]                       0x00000854   Section        0  musicbox.o(.text.main)
     [Anonymous Symbol]                       0x00000888   Section        0  music.o(.text.next_song)
-    [Anonymous Symbol]                       0x000008ac   Section        0  music.o(.text.play_a_song)
-    [Anonymous Symbol]                       0x00000968   Section        0  music.o(.text.turn_off_music)
-    [Anonymous Symbol]                       0x00000990   Section        0  music.o(.text.turn_on_music)
-    Score_Tab                                0x000009a4   Data         300  music.o(.rodata.Score_Tab)
-    [Anonymous Symbol]                       0x000009a4   Section        0  music.o(.rodata.Score_Tab)
-    Tone_Tab                                 0x00000ad0   Data          84  music.o(.rodata.Tone_Tab)
-    [Anonymous Symbol]                       0x00000ad0   Section        0  music.o(.rodata.Tone_Tab)
+    [Anonymous Symbol]                       0x0000089c   Section        0  music.o(.text.play_a_song)
+    [Anonymous Symbol]                       0x00000958   Section        0  music.o(.text.turn_off_music)
+    [Anonymous Symbol]                       0x00000980   Section        0  music.o(.text.turn_on_music)
+    Score_Tab                                0x00000994   Data         300  music.o(.rodata.Score_Tab)
+    [Anonymous Symbol]                       0x00000994   Section        0  music.o(.rodata.Score_Tab)
+    Tone_Tab                                 0x00000ac0   Data         112  music.o(.rodata.Tone_Tab)
+    [Anonymous Symbol]                       0x00000ac0   Section        0  music.o(.rodata.Tone_Tab)
     .bss                                     0x20000000   Section       96  libspace.o(.bss)
     currentSong                              0x20000061   Data           1  music.o(.bss.currentSong)
     [Anonymous Symbol]                       0x20000061   Section        0  music.o(.bss.currentSong)
@@ -587,12 +587,12 @@ Image Symbol Table
     SysTick_stop                             0x000007dd   Thumb Code    18  systick.o(.text.SysTick_stop)
     is_music_on                              0x00000845   Thumb Code    16  music.o(.text.is_music_on)
     main                                     0x00000855   Thumb Code    52  musicbox.o(.text.main)
-    next_song                                0x00000889   Thumb Code    36  music.o(.text.next_song)
-    play_a_song                              0x000008ad   Thumb Code   188  music.o(.text.play_a_song)
-    turn_off_music                           0x00000969   Thumb Code    38  music.o(.text.turn_off_music)
-    turn_on_music                            0x00000991   Thumb Code    20  music.o(.text.turn_on_music)
-    Region$$Table$$Base                      0x00000b24   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000b34   Number         0  anon$$obj.o(Region$$Table)
+    next_song                                0x00000889   Thumb Code    20  music.o(.text.next_song)
+    play_a_song                              0x0000089d   Thumb Code   188  music.o(.text.play_a_song)
+    turn_off_music                           0x00000959   Thumb Code    38  music.o(.text.turn_off_music)
+    turn_on_music                            0x00000981   Thumb Code    20  music.o(.text.turn_on_music)
+    Region$$Table$$Base                      0x00000b30   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000b40   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x20000000   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x20000060   Data           0  libspace.o(.bss)
     currentNote                              0x20000060   Data           1  music.o(.bss.currentNote)
@@ -607,9 +607,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000b34, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000b40, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000b34, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000b40, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -691,22 +691,22 @@ Memory Map of the image
     0x0000081c   0x0000081c   0x00000028   Code   RO           34    .text.getToneIndex  music.o
     0x00000844   0x00000844   0x00000010   Code   RO           42    .text.is_music_on   music.o
     0x00000854   0x00000854   0x00000034   Code   RO           72    .text.main          musicbox.o
-    0x00000888   0x00000888   0x00000024   Code   RO           40    .text.next_song     music.o
-    0x000008ac   0x000008ac   0x000000bc   Code   RO           30    .text.play_a_song   music.o
-    0x00000968   0x00000968   0x00000026   Code   RO           44    .text.turn_off_music  music.o
-    0x0000098e   0x0000098e   0x00000002   PAD
-    0x00000990   0x00000990   0x00000014   Code   RO           46    .text.turn_on_music  music.o
-    0x000009a4   0x000009a4   0x0000012c   Data   RO           53    .rodata.Score_Tab   music.o
-    0x00000ad0   0x00000ad0   0x00000054   Data   RO           51    .rodata.Tone_Tab    music.o
-    0x00000b24   0x00000b24   0x00000010   Data   RO          248    Region$$Table       anon$$obj.o
+    0x00000888   0x00000888   0x00000014   Code   RO           40    .text.next_song     music.o
+    0x0000089c   0x0000089c   0x000000bc   Code   RO           30    .text.play_a_song   music.o
+    0x00000958   0x00000958   0x00000026   Code   RO           44    .text.turn_off_music  music.o
+    0x0000097e   0x0000097e   0x00000002   PAD
+    0x00000980   0x00000980   0x00000014   Code   RO           46    .text.turn_on_music  music.o
+    0x00000994   0x00000994   0x0000012c   Data   RO           53    .rodata.Score_Tab   music.o
+    0x00000ac0   0x00000ac0   0x00000070   Data   RO           51    .rodata.Tone_Tab    music.o
+    0x00000b30   0x00000b30   0x00000010   Data   RO          248    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000b34, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000b40, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
 
-    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x00000b34, Size: 0x00000468, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x00000b40, Size: 0x00000468, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -715,7 +715,7 @@ Memory Map of the image
     0x20000061        -       0x00000001   Zero   RW           52    .bss.currentSong    music.o
     0x20000062        -       0x00000001   Zero   RW           49    .bss.musicOn        music.o
     0x20000063        -       0x00000001   Zero   RW           48    .bss.octave         music.o
-    0x20000064   0x00000b34   0x00000004   PAD
+    0x20000064   0x00000b40   0x00000004   PAD
     0x20000068        -       0x00000000   Zero   RW            2    HEAP                startup.o
     0x20000068        -       0x00000400   Zero   RW            1    STACK               startup.o
 
@@ -727,14 +727,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       540          0        384          0          4       2486   music.o
+       524          0        412          0          4       2552   music.o
         52          0          0          0          0        427   musicbox.o
        692        632          0          0       1024       1028   startup.o
        750          0          0          0          0       1085   switch.o
        164          0          0          0          0        961   systick.o
 
     ----------------------------------------------------------------------
-      2216        632        400          0       1032       5987   Object Totals
+      2200        632        428          0       1032       6053   Object Totals
          0          0         16          0          0          0   (incl. Generated)
         18          0          0          0          4          0   (incl. Padding)
 
@@ -782,15 +782,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2468        648        400          0       1128       6335   Grand Totals
-      2468        648        400          0       1128       6335   ELF Image Totals
-      2468        648        400          0          0          0   ROM Totals
+      2452        648        428          0       1128       6401   Grand Totals
+      2452        648        428          0       1128       6401   ELF Image Totals
+      2452        648        428          0          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2868 (   2.80kB)
+    Total RO  Size (Code + RO Data)                 2880 (   2.81kB)
     Total RW  Size (RW Data + ZI Data)              1128 (   1.10kB)
-    Total ROM Size (Code + RO Data + RW Data)       2868 (   2.80kB)
+    Total ROM Size (Code + RO Data + RW Data)       2880 (   2.81kB)
 
 ==============================================================================
 

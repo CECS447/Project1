@@ -34,31 +34,31 @@ const uint32_t tonetab[] =
 // 1, 2, 3, 4, 5, 6, 7
 // lower C octave:130.813, 146.832,164.814,174.614,195.998, 220,246.942
 // calculate reload value for the whole period:Reload value = Fclk/Ft = 16MHz/Ft
-{
- 30534*2,27211*2,24242*2,22923*2,20408*2,18182*2,16194*2, // C4 Major notes
- 15289*2,13621*2,12135*2,11454*2,10204*2,9091*2,8099*2,   // C5 Major notes
- 7645*2,6810*2,6067*2,5727*2,5102*2,4545*2,4050*2
-};        // C6 Major notes
+{122137,108844,96970,91429,81633,72727,64777,                                // C3 Major notes
+ 30534*2,27211*2,24242*2,22923*2,20408*2,18182*2,16194*2,     // C4 Major notes
+ 15289*2,13621*2,12135*2,11454*2,10204*2,9091*2,8099*2,       // C5 Major notes
+ 7645*2,6810*2,6067*2,5727*2,5102*2,4545*2,4050*2};         // C6 Major notes
+
 
 // Constants
 // Index for notes used in the music scores
 typedef enum
 {
-  C4 = 0,
-  D4 = 1,
-  E4 = 2,
-  F4 = 3,
-  G4 = 4,
-  A4 = 5,
-  B4 = 6,
+  C3 = 0,
+  D3 = 1,
+  E3 = 2,
+  F3 = 3,
+  G3 = 4,
+  A3 = 5,
+  B3 = 6,
 
-  C5 = 0+7,
-  D5 = 1+7,
-  E5 = 2+7,
-  F5 = 3+7,
-  G5 = 4+7,
-  A5 = 5+7,
-  B5 = 6+7,
+  C4 = 0 + 7,
+  D4 = 1 + 7,
+  E4 = 2 + 7,
+  F4 = 3 + 7,
+  G4 = 4 + 7,
+  A4 = 5 + 7,
+  B4 = 6 + 7,
 
   C6 = 0+2*7,
   D6 = 1+2*7,
@@ -67,6 +67,14 @@ typedef enum
   G6 = 4+2*7,
   A6 = 5+2*7,
   B6 = 6+2*7,
+  
+  C7 = 0+3*7,
+  D7 = 1+3*7,
+  E7 = 2+3*7,
+  F7 = 3+3*7,
+  G7 = 4+3*7,
+  A7 = 5+3*7,
+  B7 = 6+3*7,
 
   PAUSE = 255,
 } NOTE_INDEX;
@@ -96,29 +104,26 @@ extern volatile uint8_t curr_mode;
 
 static NTyp playlist[MAX_SONGS][MAX_NOTES] = 
 {  
-  // Mary Had a little Lamb
-  {
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8, 0, 0
-  },
+  // Mary Had A Little Lamb
+  {E3, 4, D3, 4, C3, 4, D3, 4, E3, 4, E3, 4, E3, 8, 
+  D3, 4, D3, 4, D3, 8, E3, 4, G3, 4, G3, 8,
+  E3, 4, D3, 4, C3, 4, D3, 4, E3, 4, E3, 4, E3, 8, 
+  D3, 4, D3, 4, E3, 4, D3, 4, C3, 8, 0, 0 },
 
-  // score table for Twinkle Twinkle Little Stars
-  {
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
-    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8,0,0
-  },
-  
+  // Twinkle Twinkle Little Stars
+  {C3,4,C3,4,G3,4,G3,4,A3,4,A3,4,G3,8,F3,4,F3,4,E3,4,E3,4,D3,4,D3,4,C3,8, 
+  G3,4,G3,4,F3,4,F3,4,E3,4,E3,4,D3,8,G3,4,G3,4,F3,4,F3,4,E3,4,E3,4,D3,8, 
+  C3,4,C3,4,G3,4,G3,4,A3,4,A3,4,G3,8,F3,4,F3,4,E3,4,E3,4,D3,4,D3,4,C3,8,0,0},
   // Happy Birthday
-  {    C4, 2, C4, 2, D4, 4, C4, 4, F4, 4, E4, 4,
-    PAUSE, 4, C4, 2, C4, 2, D4, 4, C4, 4, G4, 4, F4, 4,
-    PAUSE, 4, C4, 2, C4, 2, C4, 4, A4, 4, F4, 4, E4, 4, D4, 8, 
-    PAUSE, 4, B4, 2, B4, 2, A4, 4, F4, 4, G4, 4, F4, 8,  0, 0
-  },
+// so   so   la   so   doe' ti
+   {G3,2,G3,2,A3,4,G3,4,C4,4,B3,4,
+// pause so   so   la   so   ray' doe'
+   SILENCE,4,  G3,2,G3,2,A3,4,G3,4,D4,4,C4,4,
+// pause so   so   so'  mi'  doe' ti   la
+   SILENCE, 4, G3,2,G3,2,G4,4,E4,4,C4,4,B3,4,A3,8, 
+// pause fa'  fa'   mi'  doe' ray' doe'  stop
+     SILENCE,4,  F4,2,F4,2, E4,4,C4,4,D4,4,C4,8, SILENCE,0}
 };
-
 
 // File scope golbal
 volatile uint8_t curr_song=0;      // 0: Happy Birthday, 1: Mary Had A Little Lamb. 2: Twinkle Twinkle Little Stars
@@ -221,26 +226,26 @@ void GPIOPortD_Handler(void){
 
   if (GPIO_PORTD_RIS_R & KEY_C_MASK)
   {
-    Note = C4;
+    Note = C3;
     GPIO_PORTD_ICR_R |= KEY_C_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_D_MASK )
   {
-    Note = D4;
+    Note = D3;
     GPIO_PORTD_ICR_R |= KEY_D_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_E_MASK)
   {
-    Note = E4;
+    Note = E3;
     GPIO_PORTD_RIS_R |= KEY_E_MASK; // Ack interrupt 
   }
   else if (GPIO_PORTD_RIS_R & KEY_F_MASK)
   {
-    Note = F4;
+    Note = F3;
     GPIO_PORTD_ICR_R |= KEY_F_MASK; // Ack interrupt 
   }
 
-  Note = Note + ( octave * 7);
+  Note = Note + (octave * 7);
 
   if ( pressed )
   {
@@ -252,15 +257,6 @@ void GPIOPortD_Handler(void){
   }
 
 }
-
-void GPIOPortE_Handler(void)
-{
-	for (uint32_t time=0;time<72724;time++) {}
-  static bool pressed = true;
-  NOTE_INDEX Note = 0;
-
-}
-
 
 // Subroutine to wait 0.1 sec
 // Inputs: None

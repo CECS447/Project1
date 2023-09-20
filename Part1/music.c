@@ -27,31 +27,39 @@ uint8_t octave = 0;
 // Index for notes used in the music scores
 typedef enum
 {
-  C4 = 0,
-  D4 = 1,
-  E4 = 2,
-  F4 = 3,
-  G4 = 4,
-  A4 = 5,
-  B4 = 6,
+  C3 = 0,
+  D3 = 1,
+  E3 = 2,
+  F3 = 3,
+  G3 = 4,
+  A3 = 5,
+  B3 = 6,
 
-  C5 = 0+7,
-  D5 = 1+7,
-  E5 = 2+7,
-  F5 = 3+7,
-  G5 = 4+7,
-  A5 = 5+7,
-  B5 = 6+7,
+  C4 = 0 + 7,
+  D4 = 1 + 7,
+  E4 = 2 + 7,
+  F4 = 3 + 7,
+  G4 = 4 + 7,
+  A4 = 5 + 7,
+  B4 = 6 + 7,
 
-  C6 = 0+2*7,
-  D6 = 1+2*7,
-  E6 = 2+2*7,
-  F6 = 3+2*7,
-  G6 = 4+2*7,
-  A6 = 5+2*7,
-  B6 = 6+2*7,
+  C5 = 0+2*7,
+  D5 = 1+2*7,
+  E5 = 2+2*7,
+  F5 = 3+2*7,
+  G5 = 4+2*7,
+  A5 = 5+2*7,
+  B5 = 6+2*7,
+  
+  C6 = 0+3*7,
+  D6 = 1+3*7,
+  E6 = 2+3*7,
+  F6 = 3+3*7,
+  G6 = 4+3*7,
+  A6 = 5+3*7,
+  B6 = 6+3*7,
 
-  PAUSE = 255,
+  SILENCE = 255,
 } NOTE_INDEX;
 
 // Used for score tab 2D array control
@@ -66,38 +74,40 @@ typedef enum
 
 static NTyp Score_Tab[MAX_SONGS][MAX_NOTES] = 
 {  
-  // Mary Had a little Lamb
-  {
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, D4, 8, E4, 4, G4, 4, G4, 8,
-    E4, 4, D4, 4, C4, 4, D4, 4, E4, 4, E4, 4, E4, 8, 
-    D4, 4, D4, 4, E4, 4, D4, 4, C4, 8, 0, 0
-  },
+  // Mary Had A Little Lamb
+  {E3, 4, D3, 4, C3, 4, D3, 4, E3, 4, E3, 4, E3, 8, 
+  D3, 4, D3, 4, D3, 8, E3, 4, G3, 4, G3, 8,
+  E3, 4, D3, 4, C3, 4, D3, 4, E3, 4, E3, 4, E3, 8, 
+  D3, 4, D3, 4, E3, 4, D3, 4, C3, 8, 0, 0 },
 
-  // score table for Twinkle Twinkle Little Stars
-  {
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8, 
-    G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, G4, 4, G4, 4, F4, 4, F4, 4, E4, 4, E4, 4, D4, 8, 
-    C4, 4, C4, 4, G4, 4, G4, 4, A4, 4, A4, 4, G4, 8, F4, 4, F4, 4, E4, 4, E4, 4, D4, 4, D4, 4, C4, 8,0,0
-  },
-  
+  // Twinkle Twinkle Little Stars
+  {C3,4,C3,4,G3,4,G3,4,A3,4,A3,4,G3,8,F3,4,F3,4,E3,4,E3,4,D3,4,D3,4,C3,8, 
+  G3,4,G3,4,F3,4,F3,4,E3,4,E3,4,D3,8,G3,4,G3,4,F3,4,F3,4,E3,4,E3,4,D3,8, 
+  C3,4,C3,4,G3,4,G3,4,A3,4,A3,4,G3,8,F3,4,F3,4,E3,4,E3,4,D3,4,D3,4,C3,8,0,0},
+
+{
   // Happy Birthday
-  {    C4, 2, C4, 2, D4, 4, C4, 4, F4, 4, E4, 4,
-    PAUSE, 4, C4, 2, C4, 2, D4, 4, C4, 4, G4, 4, F4, 4,
-    PAUSE, 4, C4, 2, C4, 2, C4, 4, A4, 4, F4, 4, E4, 4, D4, 8, 
-    PAUSE, 4, B4, 2, B4, 2, A4, 4, F4, 4, G4, 4, F4, 8,  0, 0
+// so   so   la   so   doe' ti
+   G3,2,G3,2,A3,4,G3,4,C4,4,B3,4,
+// pause so   so   la   so   ray' doe'
+   SILENCE,4,  G3,2,G3,2,A3,4,G3,4,D4,4,C4,4,
+// pause so   so   so'  mi'  doe' ti   la
+   SILENCE, 4, G3,2,G3,2,G4,4,E4,4,C4,4,B3,4,A3,8, 
+// pause fa'  fa'   mi'  doe' ray' doe'  stop
+     SILENCE,4,  F4,2,F4,2, E4,4,C4,4,D4,4,C4,8, SILENCE,0
   },
 };
-
-// Piano Notes assuming 16MHz SysTick
+// Piano Notes assuming 16MHz SysTic
 //   Note: C, D, E, F, G, A, B
 // Offset: 0, 1, 2, 3, 4, 5, 6
 static const unsigned long Tone_Tab[] =
-{ 
- 30534,27211,24242,22923,20408,18182,16194, // C4 Major notes
- 15289,13621,12135,11454,10204,9091,8099,   // C5 Major notes
- 7645,6810,6067,5727,5102,4545,4050         // C6 Major notes
-};
+// calculate reload value for the whole period:Reload value = Fclk/Ft = 16MHz/Ft
+// lower C octave:130.813, 146.832,164.814,174.614,195.998, 220,246.942
+// calculate reload value for the whole period:Reload value = Fclk/Ft = 16MHz/Ft
+{122137/2,108844/2,96970/2,91429/2,81633/2,72727/2,64777/2,                 // C3 Major notes
+ 30534,27211,24242,22923,20408,18182,16194,     // C4 Major notes
+ 15289,13621,12135,11454,10204,9091,8099,       // C5 Major notes
+ 7645,6810,6067,5727,5102,4545,4050};           // C6 Major notes
 
 
 /******** Global Variables *********/
@@ -178,7 +188,7 @@ void play_a_song(void)
     currentToneIndex = getToneIndex();
 
     // Silence by disabling SysTick
-    if ( currentToneIndex == PAUSE)
+    if ( currentToneIndex == SILENCE)
     {
 			SysTick_stop();
     }
@@ -196,10 +206,11 @@ void play_a_song(void)
 		SysTick_stop();
 
     // Delay for break in notes
-    DelayMS(5);
+    DelayMS(25);
 
-    currentDelay = getDelay();
     currentNote++;
+    currentDelay = getDelay();
+
   }
   currentNote = 0;
   DelayMS(100);
@@ -234,7 +245,7 @@ void Music_Init(void)
  ******************************************************************************************/
 void next_song(void)
 {
-  currentSong = (currentSong + 1) % 3;
+  currentSong = (currentSong + 1) % 4;
 }
 
 /******************************************************************************************
