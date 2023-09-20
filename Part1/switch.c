@@ -8,6 +8,7 @@
 
 #include "tm4c123gh6pm.h"
 #include "switch.h"
+#include "SysTick.h"
 #include "music.h"
 
 // Enum for switch config and handling
@@ -61,28 +62,28 @@ void Switch_Init(void)
 
 // ISR for PORTF
 void GPIOPortF_Handler(void)
-{
+{ 
     // Simple debounce
-    for (uint32_t time=0;time<727240*20/91; time++) {} 
+    for (uint32_t time=0;time<100000; time++) {} 
 
     // Switch 1 Pressed, controls if music is on or off
     // Switch 1 held, change octave
     if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
         currentNote = 0;
-        // // detect if switch is held down for 3 seconds
-        // uint32_t time = (727240*20/91) * 30; 
-        // while(time && (GPIO_PORTF_RIS_R & SWITCH1_MASK) )
-        // {
-        //     time--;
-        // }
-        
-        // if ( !time )
-        // {
-        //     octave = (octave + 1) % 3;
-        // }
+        // detect if switch is held down for 1 seconds
+        uint32_t time = (727240*20/91) * 3; 
+        while(time && !(GPIO_PORTF_DATA_R & SWITCH1_MASK) )
+        { 
+            time--;
+        }
 
-        if ( !musicOn )
+        if ( !time )
+        {
+            octave = (octave + 1) % 3;
+        }
+
+        if ( !musicOn && time )
         {
             turn_on_music();
         }
