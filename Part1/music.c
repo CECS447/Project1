@@ -105,7 +105,7 @@ volatile bool musicOn = 0;
 
 
 /******** Static Local Variables *********/
-static volatile uint8_t currentNote    = 0;
+volatile uint8_t currentNote    = 0;
 static volatile SONG_INDEX currentSong = 0;
 
 
@@ -172,7 +172,7 @@ static inline uint8_t getToneIndex(void)
 void play_a_song(void)
 {
   uint8_t currentToneIndex = 0;
-  uint8_t currentDelay = getToneIndex();
+  uint8_t currentDelay = getDelay();
 	while (currentDelay && musicOn)
   {
     currentToneIndex = getToneIndex();
@@ -201,6 +201,8 @@ void play_a_song(void)
     currentDelay = getDelay();
     currentNote++;
   }
+  currentNote = 0;
+  DelayMS(100);
 }
 
 /******************************************************************************************

@@ -21,6 +21,7 @@ typedef enum
 // Global musicOn variable
 extern bool musicOn;
 extern uint8_t octave;
+extern volatile uint8_t currentNote;
 
 // Initialize Switches
 void Switch_Init(void)
@@ -61,10 +62,26 @@ void Switch_Init(void)
 // ISR for PORTF
 void GPIOPortF_Handler(void)
 {
-    for (uint32_t time=0;time<100000;time++) {} 
+    // Simple debounce
+    for (uint32_t time=0;time<727240*20/91; time++) {} 
+
     // Switch 1 Pressed, controls if music is on or off
+    // Switch 1 held, change octave
     if (GPIO_PORTF_RIS_R & SWITCH1_MASK)
     {
+        currentNote = 0;
+        // // detect if switch is held down for 3 seconds
+        // uint32_t time = (727240*20/91) * 30; 
+        // while(time && (GPIO_PORTF_RIS_R & SWITCH1_MASK) )
+        // {
+        //     time--;
+        // }
+        
+        // if ( !time )
+        // {
+        //     octave = (octave + 1) % 3;
+        // }
+
         if ( !musicOn )
         {
             turn_on_music();
@@ -81,11 +98,4 @@ void GPIOPortF_Handler(void)
         next_song();
 	    GPIO_PORTF_ICR_R |= SWITCH2_MASK;      
     }
-}
-
-void GPIOPortD_Handler(void)
-{      
-    for (uint32_t time=0;time<72724;time++) {} 
-    octave = (octave + 1) % 3;
-    GPIO_PORTD_ICR_R |= 0x01;
 }
